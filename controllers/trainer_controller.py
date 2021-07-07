@@ -18,7 +18,7 @@ def route(app):
     def get_trainer_by_id(id):
         try:
             return jsonify(TrainerService.get_trainer_byID(int(id)).json())
-        except ValueError as e:
+        except ValueError:
             return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
@@ -27,7 +27,7 @@ def route(app):
     def get_trainers_by_batch_id(batch_id):
         try:
             trainers = TrainerService.get_trainers_in_batch(int(batch_id))
-        except ValueError as e:
+        except ValueError:
             return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
@@ -38,5 +38,5 @@ def route(app):
     def get_years_for_trainer(trainer_id):
         try:
             return jsonify(TrainerService.get_years_for_trainer(int(trainer_id)))
-        except ValueError as e:
+        except ValueError:
             return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request

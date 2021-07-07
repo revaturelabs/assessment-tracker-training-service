@@ -14,7 +14,7 @@ def route(app):
         try:
             batch = AssociateServices.get_associated_byID(int(associate_id))
             return jsonify(batch.json()), 200
-        except ValueError as e:
+        except ValueError:
             return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
@@ -25,7 +25,7 @@ def route(app):
         try:
             batch = AssociateServices.get_associate_in_batch(int(batch_id), int(associate_id))
             return jsonify(batch.json()), 200
-        except ValueError as e:
+        except ValueError:
             return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
@@ -37,7 +37,7 @@ def route(app):
             batch = AssociateServices.get_all_associates_in_batch(int(batch_id))
             batches_as_json = convert_list_to_json(batch)
             return jsonify(batches_as_json), 200
-        except ValueError as e:
+        except ValueError:
             return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
