@@ -36,9 +36,6 @@ class DbConn:
                 record = cursor.fetchall()
 
                 return record
-
-        except (Exception, Error) as error:
-            raise error
         finally:
             if connection:
                 cursor.close()

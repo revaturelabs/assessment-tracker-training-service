@@ -9,7 +9,7 @@ class TrainerServiceTest(unittest.TestCase):
         assert TrainerService.login("rs@revature.com")
 
     def test_get_associate_by_id(self):
-        assert TrainerService.get_trainer_byID(1)
+        assert TrainerService.get_trainer_by_id(1)
 
     def test_get_trainers_by_batch_id(self):
         assert TrainerService.get_trainers_in_batch(1)

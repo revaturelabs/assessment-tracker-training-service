@@ -19,7 +19,7 @@ class DAOTests(unittest.TestCase):
 
     def test_get_trainer_by_id_fail(self):
         try:
-            trainer = TrainerDAOImpl().get_trainer_by_id(20000)
+            TrainerDAOImpl().get_trainer_by_id(20000)
             assert False
         except ResourceNotFound:
             assert True
