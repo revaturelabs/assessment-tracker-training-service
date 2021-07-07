@@ -15,7 +15,7 @@ class Connection():
                 parser.read_file(f)
         except FileNotFoundError:
             raise InvalidDatabaseConnection(
-                "conn_cred.ini is missing from root.")
+                f"{conn_file} is missing from application root.")
 
         try:
             params = parser.items(section)
