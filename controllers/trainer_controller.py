@@ -4,6 +4,7 @@ from exceptions.resource_not_found import ResourceNotFound
 from services.trainer_service import TrainerService
 from utils.json_tool import convert_list_to_json
 
+INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 def route(app):
     @app.route("/trainer/", methods=["POST"])
@@ -19,7 +20,7 @@ def route(app):
         try:
             return jsonify(TrainerService.get_trainer_byID(int(id)).json())
         except ValueError:
-            return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request
+            return INVALID_ID_ERROR, 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
 
@@ -28,7 +29,7 @@ def route(app):
         try:
             trainers = TrainerService.get_trainers_in_batch(int(batch_id))
         except ValueError:
-            return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request
+            return INVALID_ID_ERROR, 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
         trainers_as_json = convert_list_to_json(trainers)
@@ -39,4 +40,4 @@ def route(app):
         try:
             return jsonify(TrainerService.get_years_for_trainer(int(trainer_id)))
         except ValueError:
-            return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request
+            return INVALID_ID_ERROR, 400  # Bad Request

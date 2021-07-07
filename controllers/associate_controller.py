@@ -4,6 +4,7 @@ from exceptions.resource_not_found import ResourceNotFound
 from services.associate_services import AssociateServices
 from utils.json_tool import convert_list_to_json
 
+INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 def route(app):
 
@@ -15,7 +16,7 @@ def route(app):
             batch = AssociateServices.get_associated_byID(int(associate_id))
             return jsonify(batch.json()), 200
         except ValueError:
-            return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request
+            return INVALID_ID_ERROR, 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
 
@@ -26,7 +27,7 @@ def route(app):
             batch = AssociateServices.get_associate_in_batch(int(batch_id), int(associate_id))
             return jsonify(batch.json()), 200
         except ValueError:
-            return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request
+            return INVALID_ID_ERROR, 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
 
@@ -38,7 +39,7 @@ def route(app):
             batches_as_json = convert_list_to_json(batch)
             return jsonify(batches_as_json), 200
         except ValueError:
-            return "Not a valid ID or No such batch exist with this ID", 400  # Bad Request
+            return INVALID_ID_ERROR, 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
 
