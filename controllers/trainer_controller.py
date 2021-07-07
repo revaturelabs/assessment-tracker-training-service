@@ -18,7 +18,7 @@ def route(app):
     @app.route("/trainer/<id>/", methods=["GET"])
     def get_trainer_by_id(id):
         try:
-            return jsonify(TrainerService.get_trainer_byID(int(id)).json())
+            return jsonify(TrainerService.get_trainer_by_id(int(id)).json())
         except ValueError:
             return INVALID_ID_ERROR, 400  # Bad Request
         except ResourceNotFound as r:
