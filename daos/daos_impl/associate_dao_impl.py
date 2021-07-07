@@ -37,10 +37,10 @@ class AssociateDAOImpl(AssociateDAO):
         records = DbConn.make_connect(sql, [batch_id])
         associates = []
         if records:
-            for anAssociate in records:
+            for associate in records:
                 associates.append(
-                    Associate(id=anAssociate[0], first_name=anAssociate[1], last_name=anAssociate[2], email=anAssociate[3],
-                              training_status=anAssociate[4]))
+                    Associate(id=associate[0], first_name=associate[1], last_name=associate[2], email=associate[3],
+                              training_status=associate[4]))
             return associates
         else:
             raise ResourceNotFound("No batch could be found with that id")

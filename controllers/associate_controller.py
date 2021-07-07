@@ -13,7 +13,7 @@ def route(app):
     def get_associate_id(associate_id):
         """Get a specific Associate by their ID"""
         try:
-            batch = AssociateServices.get_associated_byID(int(associate_id))
+            batch = AssociateServices.get_associated_by_id(int(associate_id))
             return jsonify(batch.json()), 200
         except ValueError:
             return INVALID_ID_ERROR, 400  # Bad Request

@@ -5,7 +5,7 @@ class AssociateServices:
     associate_dao = AssociateDAOImpl()
 
     @classmethod
-    def get_associated_byID(cls, associate_id):
+    def get_associated_by_id(cls, associate_id):
         return cls.associate_dao.get_associate_by_id(associate_id)
 
     @classmethod
