@@ -1,5 +1,7 @@
 from configparser import ConfigParser
 
+from exceptions.invalid_database_connection import InvalidDatabaseConnection
+
 
 class ConnectionGenerator:
 
@@ -22,7 +24,7 @@ class ConnectionGenerator:
             for param in params:
                 db[param[0]] = param[1]
         else:
-            raise Exception('Section {0} not found in the {1} file'.format(section, database_file))
+            raise InvalidDatabaseConnection('Section {0} not found in the {1} file'.format(section, database_file))
 
         return db
 

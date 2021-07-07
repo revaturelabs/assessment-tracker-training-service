@@ -10,7 +10,7 @@ class TrainerService:
         return TrainerDAOImpl().login(email)
 
     @classmethod
-    def get_trainer_byID(cls, trainer_id):
+    def get_trainer_by_id(cls, trainer_id):
         return cls.trainer_dao.get_trainer_by_id(trainer_id)
 
     @classmethod
