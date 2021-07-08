@@ -8,7 +8,7 @@ class BatchDAO(ABC):
 
     @staticmethod
     @abstractmethod
-    def create_batch(cursor, id: int, name: str, training_track: str, start_date: int, end_date: int) -> Batch:
+    def create_batch(cursor, batch:Batch) -> Batch:
         pass
 
     @staticmethod

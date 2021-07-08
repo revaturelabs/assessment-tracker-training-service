@@ -5,7 +5,16 @@ from utils.connection import Connection
 
 conn = Connection.conn
 
+
 class BatchDAOImpl(BatchDAO):
+    @staticmethod
+    def create_batch(cursor, batch: Batch) -> Batch:
+        sql = """insert into batches values(default, %s, %s, %s, %s)  returning id;"""
+        cursor.execute(sql, [batch.start_date, batch.end_date, batch.name, batch.training_track])
+        conn.commit()
+        batch.id = cursor.fetchone()[0]
+        return batch
+
     @staticmethod
     def get_batch_by_id(cursor, batch_id):
         """Takes in an id for a batch record and returns a Batch object"""
