@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from models.note import Note
 
 
-class noteService(ABC):
+class NoteService(ABC):
 
     #Create
     @abstractmethod
@@ -34,5 +34,5 @@ class noteService(ABC):
     def get_all_notes_for_trainee(self, trainee_id: int) -> list[Note]:
         pass
     @abstractmethod
-    def gat_all_notes_for_trainee_for_week(self, trainee_id: int, week_number: int) -> list[Note]:
+    def get_all_notes_for_trainee_for_week(self, trainee_id: int, week_number: int) -> list[Note]:
         pass
