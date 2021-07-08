@@ -22,8 +22,8 @@ class NoteDAOTest(unittest.TestCase):
 
     def test_get_single_note(self):
         with conn:
-            with conn.cursor as cursor:
-                test_note.note_id = 1
+            with conn.cursor() as cursor:
+                note_dao.add_note(cursor, test_note)
                 assert note_dao.get_single_note(cursor, test_note.note_id)
             conn.rollback()
 
@@ -38,22 +38,21 @@ class NoteDAOTest(unittest.TestCase):
 
     def test_get_all_notes(self):
         with conn:
-            with conn.cursor as cursor:
+            with conn.cursor() as cursor:
                 assert note_dao.get_all_notes(cursor)
             conn.rollback()
 
     def test_update_note(self):
         with conn:
-            with conn.cursor as cursor:
-                test_note.content = "Updated content"
-                test_note.note_id = 1
+            with conn.cursor() as cursor:
+                test_note.content = 'Updated content'
                 note = note_dao.update_note(cursor, test_note)
                 assert note.content == test_note.content
             conn.rollback()
 
     def test_update_note_fail(self):
         with conn:
-            with conn.cursor as cursor:
+            with conn.cursor() as cursor:
                 try:
                     test_note.note_id = 200
                     note_dao.update_note(cursor, test_note)
@@ -63,14 +62,13 @@ class NoteDAOTest(unittest.TestCase):
 
     def test_delete_note(self):
         with conn:
-            with conn.cursor as cursor:
-                test_note.note_id = 1
+            with conn.cursor() as cursor:
                 assert note_dao.delete_note(cursor, test_note.note_id)
             conn.rollback()
 
     def test_delete_note_fail(self):
         with conn:
-            with conn.cursor as cursor:
+            with conn.cursor() as cursor:
                 try:
                     test_note.note_id = 200
                     note_dao.delete_note(cursor, test_note.note_id)
