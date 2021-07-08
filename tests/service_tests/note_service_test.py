@@ -1,6 +1,5 @@
 from unittest.mock import MagicMock
 
-from daos.daos_impl.note_dao_impl import NoteDaoImpl
 from daos.note_dao import NoteDao
 from models.note import Note
 from services.note_service import NoteService
