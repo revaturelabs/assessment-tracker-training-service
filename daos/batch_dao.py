@@ -9,3 +9,7 @@ class BatchDAO(ABC):
     @abstractmethod
     def get_batch_by_id(self, batch_id):
         pass
+
+    @abstractmethod
+    def search_for_batch(self, trainer_id, track):
+        pass

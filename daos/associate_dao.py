@@ -10,3 +10,7 @@ class AssociateDAO(ABC):
     @abstractmethod
     def get_associate_in_batch(self, associate_id, batch_id):
         pass
+
+    @abstractmethod
+    def get_all_associates_in_batch(self, batch_id):
+        pass
