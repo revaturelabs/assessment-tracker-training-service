@@ -20,3 +20,7 @@ class BatchDAO(ABC):
     @abstractmethod
     def get_batch_by_id(cursor, batch_id: int) -> Batch:
         pass
+
+    @abstractmethod
+    def search_for_batch(self, trainer_id, track):
+        pass

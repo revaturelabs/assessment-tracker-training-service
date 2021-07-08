@@ -1,4 +1,7 @@
 from daos.daos_impl.trainer_dao_impl import TrainerDAOImpl
+from utils.connection import Connection
+
+conn = Connection.conn
 
 
 class TrainerService:
@@ -7,20 +10,29 @@ class TrainerService:
 
     @classmethod
     def login(cls, email):
-        return TrainerDAOImpl().login(email)
+        with conn:
+            with conn.cursor() as cursor:
+                return TrainerDAOImpl().login(cursor, email)
 
     @classmethod
-    def get_trainer_byID(cls, trainer_id):
-        return cls.trainer_dao.get_trainer_by_id(trainer_id)
+    def get_trainer_by_id(cls, trainer_id):
+        with conn:
+            with conn.cursor() as cursor:
+                return cls.trainer_dao.get_trainer_by_id(cursor, trainer_id)
 
     @classmethod
     def get_trainers_in_batch(cls, batch_id):
-        return cls.trainer_dao.get_trainers_in_batch(batch_id)
+        with conn:
+            with conn.cursor() as cursor:
+                return cls.trainer_dao.get_trainers_in_batch(cursor, batch_id)
 
     @classmethod
     def get_years_for_trainer(cls, trainer_id):
-        years = TrainerDAOImpl().get_years_for_trainer(trainer_id)
-        years_dict = []
-        for year in years:
-            years_dict.append({"year": year})
-        return years_dict
+        with conn:
+            with conn.cursor() as cursor:
+                years = TrainerDAOImpl().get_years_for_trainer(
+                    cursor, trainer_id)
+                years_dict = []
+                for year in years:
+                    years_dict.append({"year": year})
+                return years_dict

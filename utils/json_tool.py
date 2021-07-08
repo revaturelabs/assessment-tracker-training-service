@@ -20,13 +20,13 @@ def convert_list_to_json(items):
 class UtilTest(unittest.TestCase):
 
     def test_convert_to_json_fail(self):
-        list = ["hello", "world"]
+        test_list = ["hello", "world"]
         try:
-            convert_list_to_json(list)
+            convert_list_to_json(test_list)
         except NotSerializableError:
             self.assertTrue(True)
 
     def test_convert_to_json_list(self):
-        list = [Associate(first_name="a", last_name="a", email="a", training_status="a"),
+        test_list = [Associate(first_name="a", last_name="a", email="a", training_status="a"),
                 Associate(first_name="a", last_name="a", email="a", training_status="a")]
-        self.assertTrue(convert_list_to_json(list))
+        self.assertTrue(convert_list_to_json(test_list))
