@@ -8,6 +8,7 @@ from utils.db_connection import DbConn
 
 class BatchDAOImpl(BatchDAO):
 
+    @staticmethod
     def get_batch_by_id(self, batch_id):
         """Takes in an id for a batch record and returns a Batch object"""
         sql = "SELECT * FROM batches where id=%s"
