@@ -1,5 +1,6 @@
 from unittest.mock import MagicMock
 
+from daos.daos_impl.note_dao_impl import NoteDaoImpl
 from daos.note_dao import NoteDao
 from models.note import Note
 from services.note_service import NoteService
@@ -21,9 +22,12 @@ note_dao.get_all_notes = MagicMock(return_value = notes)
 note_service: NoteService = NoteServiceImpl(note_dao)
 
 def test_1_get_all_notes_for_trainee():
-    for i in range(1, 4):
-        all_notes = note_service.get_all_notes_for_trainee(i)
-        assert len(all_notes) == i
+    all_notes = note_service.get_all_notes_for_trainee(1)
+    assert len(all_notes) == 1
+    all_notes = note_service.get_all_notes_for_trainee(2)
+    assert len(all_notes) == 2
+    all_notes = note_service.get_all_notes_for_trainee(3)
+    assert len(all_notes) == 4
 
 def test_1_get_all_empty_notes():
     all_notes = note_service.get_all_notes_for_trainee(0)
