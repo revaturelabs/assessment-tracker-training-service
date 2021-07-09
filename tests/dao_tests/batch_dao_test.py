@@ -8,7 +8,6 @@ from daos.daos_impl.batch_dao_impl import BatchDAOImpl
 from exceptions.resource_not_found import ResourceNotFound
 from models.batch import Batch
 from utils.connection import Connection
-import datetime
 
 conn = Connection.conn
 
