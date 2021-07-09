@@ -1,15 +1,19 @@
 from flask import jsonify, request
 
+from daos.daos_impl.note_dao_impl import NoteDAOImpl
+from daos.note_dao import NoteDao
 from exceptions.resource_not_found import ResourceNotFound
 from models.note import Note
 from services.note_service import NoteService
+from services.note_service_impl import NoteServiceImpl
 
 INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 
 def route(app):
 
-    note_service: NoteService = None;
+    note_dao: NoteDao = NoteDAOImpl()
+    note_service: NoteService = NoteServiceImpl(note_dao);
 
     # Create a note
     @app.route("/note", methods=['POST'])

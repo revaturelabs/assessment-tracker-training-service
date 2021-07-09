@@ -1,11 +1,12 @@
 from unittest.mock import MagicMock
 
 from daos.note_dao import NoteDao
+from daos.daos_impl.note_dao_impl import NoteDAOImpl
 from models.note import Note
 from services.note_service import NoteService
 from services.note_service_impl import NoteServiceImpl
 
-note_dao: NoteDao = None
+note_dao: NoteDao = NoteDAOImpl()
 
 notes = [
     Note(1, 1, 1, 1, "Test Note"),
