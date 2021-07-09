@@ -5,15 +5,15 @@ from models.batch import Batch
 
 
 class BatchDAO(ABC):
-
     @staticmethod
     @abstractmethod
-    def create_batch(cursor, batch:Batch) -> Batch:
+    def create_batch(cursor, batch: Batch) -> Batch:
         pass
 
     @staticmethod
     @abstractmethod
-    def get_all_batches_by_year(cursor, trainer_id: int, year: int) -> List[Batch]:
+    def get_all_batches_by_year(cursor, trainer_id: int,
+                                year: int) -> List[Batch]:
         pass
 
     @staticmethod
@@ -21,6 +21,7 @@ class BatchDAO(ABC):
     def get_batch_by_id(cursor, batch_id: int) -> Batch:
         pass
 
+    @staticmethod
     @abstractmethod
     def search_for_batch(self, trainer_id, track):
         pass

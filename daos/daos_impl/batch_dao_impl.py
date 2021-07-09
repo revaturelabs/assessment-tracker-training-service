@@ -10,8 +10,9 @@ class BatchDAOImpl(BatchDAO):
     @staticmethod
     def create_batch(cursor, batch: Batch) -> Batch:
         sql = """insert into batches values(default, %s, %s, %s, %s)  returning id;"""
-        cursor.execute(sql, [batch.start_date, batch.end_date, batch.name, batch.training_track])
-        conn.commit()
+        cursor.execute(sql, [
+            batch.start_date, batch.end_date, batch.name, batch.training_track
+        ])
         batch.id = cursor.fetchone()[0]
         return batch
 
