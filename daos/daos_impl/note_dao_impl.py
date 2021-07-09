@@ -9,7 +9,7 @@ conn = Connection.conn
 class NoteDAOImpl(NoteDao):
     def add_note(self, cursor, note: Note) -> Note:
         """Creates a note for an Associate on a given week for a Batch"""
-        sql = """insert into note (default, %s, %s, %s, %s) returning book_id"""
+        sql = "insert into notes (batch_id, content, associate_id, week) values(%s, %s, %s, %s) returning id"
         cursor.execute(sql, (note.batch_id, note.content, note.trainee_id, note.week_number))
         conn.commit()
         n_id = cursor.fetchone()[0]
@@ -18,7 +18,7 @@ class NoteDAOImpl(NoteDao):
 
     def get_single_note(self, cursor, note_id: int) -> Note:
         """Takes in an id for a note record and returns a Note object"""
-        sql = """select * from note where note_id = %s"""
+        sql = "select * from notes where id = %s"
         cursor.execute(sql, [note_id])
         records = cursor.fetchall()
         if records:
@@ -34,7 +34,7 @@ class NoteDAOImpl(NoteDao):
 
     def get_all_notes(self, cursor) -> list[Note]:
         """Returns all the notes"""
-        sql = """select * from note"""
+        sql = "select * from notes"
         cursor.execute(sql)
         records = cursor.fetchall()
         notes = []
@@ -47,9 +47,9 @@ class NoteDAOImpl(NoteDao):
         return notes
 
     def update_note(self, cursor, updated: Note) -> Note:
-        """Updates the note's content"""
-        sql = """update note set content = %s where note_id = % returning note_id"""
-        cursor.execute(sql, (updated.content, updated.note_id))
+        """Updates note"""
+        sql = "update notes set batch_id = %s, content = %s, associate_id = %s, week = %s where id = %s returning id"
+        cursor.execute(sql, (updated.batch_id, updated.content, updated.trainee_id, updated.week_number, updated.note_id))
         conn.commit()
         n_id = cursor.fetchone()
         if n_id is not None:
@@ -59,7 +59,7 @@ class NoteDAOImpl(NoteDao):
 
     def delete_note(self, cursor, note_id: int) -> bool:
         """Deletes a note and returns True if successful"""
-        sql = """delete from note where note_id = %s returning note_id"""
+        sql = "delete from notes where id = %s returning id"
         cursor.execute(sql, [note_id])
         conn.commit()
         n_id = cursor.fetchone()
