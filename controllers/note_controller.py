@@ -13,14 +13,16 @@ INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 def route(app):
 
     note_dao: NoteDao = NoteDAOImpl()
-    note_service: NoteService = NoteServiceImpl(note_dao);
+    note_service: NoteService = NoteServiceImpl(note_dao)
 
     # Create a note
     @app.route("/note", methods=['POST'])
-    def new_note(note: Note):
+    def new_note():
         try:
-            fresh_note = note_service.add_note(note);
-            return fresh_note, 201
+            body = request.json
+            note = Note.json_parse(body)
+            fresh_note = note_service.add_note(note)
+            return fresh_note.json(), 201
         except ValueError:
             # This error might be thrown if the week number is invalid
             return INVALID_ID_ERROR, 422
@@ -44,12 +46,12 @@ def route(app):
         try:
             trainee = request.args.get("traineeId")
             week = request.args.get("week")
-            if trainee is not None:
+            if trainee is not None and week is None:
                 # if you pass the trainee id in the request
                 notes = note_service.get_all_notes_for_trainee(int(trainee))
-            elif week is not None:
+            elif week is not None and trainee is not None:
                 # if you pass the week number in the request
-                notes = note_service.get_all_notes_for_trainee_for_week()
+                notes = note_service.get_all_notes_for_trainee_for_week(int(trainee), int(week))
             else:
                 # if you don't pass anything
                 notes = note_service.get_all_notes()

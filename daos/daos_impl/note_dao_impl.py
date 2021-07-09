@@ -9,8 +9,8 @@ conn = Connection.conn
 class NoteDAOImpl(NoteDao):
     def add_note(self, cursor, note: Note) -> Note:
         """Creates a note for an Associate on a given week for a Batch"""
-        sql = "insert into notes (batch_id, content, associate_id, week) values(%s, %s, %s, %s) returning id"
-        cursor.execute(sql, (note.batch_id, note.content, note.trainee_id, note.week_number))
+        sql = "insert into notes (batch_id, cont, associate_id, week_number) values(%s, %s, %s, %s) returning id"
+        cursor.execute(sql, (note.batch_id, note.content, note.associate_id, note.week_number))
         conn.commit()
         n_id = cursor.fetchone()[0]
         note.note_id = n_id
@@ -26,7 +26,7 @@ class NoteDAOImpl(NoteDao):
             note = Note(note_id=record[0],
                         batch_id=record[1],
                         content=record[2],
-                        trainee_id=record[3],
+                        associate_id=record[3],
                         week_number=record[4])
             return note
         else:
@@ -42,14 +42,14 @@ class NoteDAOImpl(NoteDao):
             notes.append(Note(note_id=note[0],
                               batch_id=note[1],
                               content=note[2],
-                              trainee_id=note[3],
+                              associate_id=note[3],
                               week_number=note[4]))
         return notes
 
     def update_note(self, cursor, updated: Note) -> Note:
         """Updates note"""
-        sql = "update notes set batch_id = %s, content = %s, associate_id = %s, week = %s where id = %s returning id"
-        cursor.execute(sql, (updated.batch_id, updated.content, updated.trainee_id, updated.week_number, updated.note_id))
+        sql = "update notes set batch_id = %s, cont = %s, associate_id = %s, week_number = %s where id = %s returning id"
+        cursor.execute(sql, (updated.batch_id, updated.content, updated.associate_id, updated.week_number, updated.note_id))
         conn.commit()
         n_id = cursor.fetchone()
         if n_id is not None:
