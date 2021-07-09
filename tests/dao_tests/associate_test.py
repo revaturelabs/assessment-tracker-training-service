@@ -10,8 +10,7 @@ from utils.connection import Connection
 
 conn = Connection.conn
 ASSOCIATE = Associate("Testy", "McTesterson", "test@test.test", "")
-BATCH = Batch("Batchy", "Snek", date.fromisoformat("2021-05-17"),
-              date.fromisoformat("2021-05-23"))
+BATCH = Batch("Batchy", "Snek", 1625788800, 1631145600)
 
 
 def test_get_associate_by_id():

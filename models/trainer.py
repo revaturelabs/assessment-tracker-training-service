@@ -3,12 +3,13 @@ from models.codable import Codable
 
 class Trainer(Codable):
 
-    def  __init__(self, first_name, last_name, email, role="", id=-1):
+    def __init__(self, first_name, last_name, email, role="", id=-1, admin=False):
         self.id = id
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.role = role
+        self.admin = admin
 
     def json(self):
         return {
@@ -17,6 +18,7 @@ class Trainer(Codable):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'role': self.role,
+            'admin': self.admin
         }
 
     @staticmethod
@@ -27,4 +29,6 @@ class Trainer(Codable):
         trainer.first_name = json["first_name"]
         trainer.last_name = json["last_name"]
         trainer.role = json["role"]
+        trainer.admin = json["admin"]
+
         return trainer
