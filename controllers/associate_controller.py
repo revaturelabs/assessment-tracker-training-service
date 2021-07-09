@@ -39,8 +39,7 @@ def route(app):
     def get_all_associates_in_batch(batch_id):
         """Get all Associates in a batch by the batch ID"""
         try:
-            batch = AssociateServices.get_all_associates_in_batch(
-                int(batch_id))
+            batch = AssociateServices.get_all_associates_in_batch(int(batch_id))
             batches_as_json = convert_list_to_json(batch)
             return jsonify(batches_as_json), 200
         except ValueError:

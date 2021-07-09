@@ -5,6 +5,7 @@ from models.associate import Associate
 
 
 class AssociateDAOImpl(AssociateDAO):
+
     @staticmethod
     def get_associate_by_id(cursor, associate_id):
         """Get a specific Associate by their ID"""
