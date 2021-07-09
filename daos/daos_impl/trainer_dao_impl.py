@@ -1,4 +1,5 @@
 from math import floor
+from models.batch import Batch
 
 from daos.trainer_dao import TrainerDAO
 from exceptions.resource_not_found import ResourceNotFound
@@ -16,10 +17,12 @@ class TrainerDAOImpl(TrainerDAO):
         records = cursor.fetchall()
         if records:
             record = records[0]
-            return Trainer(id=record[0],
-                           first_name=record[1],
-                           last_name=record[2],
-                           email=record[3])
+            return Trainer(
+                id=record[0],
+                email=record[1],
+                first_name=record[2],
+                last_name=record[3],
+            )
         else:
             raise ResourceNotFound(
                 "No trainer could be found with the given id")
@@ -70,3 +73,34 @@ class TrainerDAOImpl(TrainerDAO):
             years.add(floor(year[0]))
 
         return years
+
+    @staticmethod
+    def create_trainer(cursor, trainer: Trainer) -> Trainer:
+        """Create a new trainer"""
+        # ! For testing use only
+        sql = """\
+            insert into
+                trainers
+            values
+                (default, %s, %s, %s)
+            returning
+                id"""
+        cursor.execute(sql,
+                       [trainer.email, trainer.first_name, trainer.last_name])
+        trainer.id = cursor.fetchone()[0]
+        return trainer
+
+    @staticmethod
+    def create_trainer_batch(cursor, trainer: Trainer, batch: Batch,
+                             role: str):
+        """Create a new trainer_batch join"""
+        # ! For testing use only
+        sql = """\
+            insert into
+                trainer_batches
+            values
+                (%s, %s, %s, %s, %s)"""
+        cursor.execute(
+            sql,
+            [trainer.id, batch.id, batch.start_date, batch.end_date, role])
+        return True

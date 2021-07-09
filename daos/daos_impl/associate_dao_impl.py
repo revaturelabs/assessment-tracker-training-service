@@ -1,3 +1,4 @@
+from models.batch import Batch
 from daos.associate_dao import AssociateDAO
 from exceptions.resource_not_found import ResourceNotFound
 from models.associate import Associate
@@ -60,3 +61,35 @@ class AssociateDAOImpl(AssociateDAO):
             return associates
         else:
             raise ResourceNotFound("No batch could be found with that id")
+
+    @staticmethod
+    def create_associate(cursor, associate: Associate) -> Associate:
+        """Create a new associate"""
+        # ! For testing use only
+        sql = """\
+            insert into
+                associates
+            values
+                (default, %s, %s, %s)
+            returning
+                id"""
+        cursor.execute(
+            sql, [associate.email, associate.first_name, associate.last_name])
+        associate.id = cursor.fetchone()[0]
+        return associate
+
+    @staticmethod
+    def create_associate_batch(cursor, associate: Associate, batch: Batch,
+                               training_status: str):
+        """Create a new associate_batch join"""
+        # ! For testing use only
+        sql = """\
+            insert into
+                associate_batches
+            values
+                (%s, %s, %s, %s, %s)"""
+        cursor.execute(sql, [
+            associate.id, batch.id, batch.start_date, batch.end_date,
+            training_status
+        ])
+        return True
