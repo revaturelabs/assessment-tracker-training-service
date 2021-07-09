@@ -16,7 +16,7 @@ def route(app):
         except ResourceNotFound as r:
             return r.message, 404
 
-    @app.route("/trainers/<id>", methods=["GET"])
+    @app.route("/trainers/<trainer_id>", methods=["GET"])
     def get_trainer_by_id(trainer_id):
         try:
             return jsonify(TrainerService.get_trainer_by_id(int(trainer_id)).json())
