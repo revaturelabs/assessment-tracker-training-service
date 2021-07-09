@@ -9,7 +9,7 @@ from pytest import raises
 from utils.connection import Connection
 
 conn = Connection.conn
-ASSOCIATE = Associate("Testy", "McTesterson", "test@test.test", "")
+ASSOCIATE = Associate("Testy", "McTesterson", "test@test.test", "meh")
 BATCH = Batch("Batchy", "Snek", date.fromisoformat("2021-05-17"),
               date.fromisoformat("2021-05-23"))
 
@@ -44,7 +44,7 @@ def test_get_associate_in_batch():
             batch = copy(BATCH)
             associate.id = a.create_associate(cursor, associate).id
             batch.id = b.create_batch(cursor, batch).id
-            a.create_associate_batch(cursor, associate, batch, "meh")
+            a.create_associate_batch(cursor, associate, batch)
             result = a.get_associate_in_batch(cursor, associate.id, batch.id)
             assert associate.first_name == result.first_name
         conn.rollback()
@@ -57,7 +57,7 @@ def test_get_associate_in_batch_fail():
             batch = copy(BATCH)
             associate.id = a.create_associate(cursor, associate).id
             batch.id = b.create_batch(cursor, batch).id
-            a.create_associate_batch(cursor, associate, batch, "meh")
+            a.create_associate_batch(cursor, associate, batch)
             with raises(ResourceNotFound):
                 a.get_associate_in_batch(cursor, 0, 0)
         conn.rollback()
