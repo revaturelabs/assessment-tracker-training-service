@@ -23,7 +23,7 @@ def route(app):
         except psycopg2.errors.InvalidDatetimeFormat:
             return f"Start date or end date are not valid date", 400  # Bad Request
 
-    @app.route("/batches/<id>", methods=["GET"])
+    @app.route("/batches/<batch_id>", methods=["GET"])
     def get_batch_by_id(batch_id):
         """Takes in an id for a batch record and returns a Batch object"""
         try:
