@@ -16,8 +16,19 @@ def route(app):
     note_service: NoteService = NoteServiceImpl(note_dao)
 
     # Create a note
-    @app.route("/note", methods=['POST'])
+    @app.route("/notes", methods=['POST'])
     def new_note():
+        """ Creates a new note
+
+        Accepts as JSON
+        {
+        "id": int,
+        "batchId": int,
+        "cont": str,
+        "associateId": int,
+        "weekNumber": int
+        }
+        """
         try:
             body = request.json
             note = Note.json_parse(body)
@@ -31,8 +42,9 @@ def route(app):
             return r.message, 422
 
     # Get a note
-    @app.route("/note/<note_id>", methods=['GET'])
+    @app.route("/notes/<note_id>", methods=['GET'])
     def get_note_id(note_id):
+        """ Gets a specific note by ID """
         try:
             note = note_service.get_single_note(int(note_id))
             return jsonify(note.json()), 200
@@ -41,8 +53,12 @@ def route(app):
             return r.message, 404
 
     # Get all notes
-    @app.route("/note", methods=['GET'])
+    @app.route("/notes", methods=['GET'])
     def get_notes_all():
+        """ Gets all notes
+            /notes?traineeId=int to specify trainee by id
+            /notes?traineeId=int&week=int to specify trainee and week number
+        """
         try:
             trainee = request.args.get("traineeId")
             week = request.args.get("week")
@@ -67,8 +83,18 @@ def route(app):
             return r.message, 404
 
     # update a note
-    @app.route("/note/<note_id>", methods=['PUT'])
+    @app.route("/notes/<note_id>", methods=['PUT'])
     def update_note(note_id):
+        """ Updates a note
+            Accepts a JSON
+            {
+            "id": int,
+            "batchId": int,
+            "cont": str,
+            "associateId": int,
+            "weekNumber": int
+            }
+        """
         try:
             body = request.json
             note = Note.json_parse(body)
@@ -83,8 +109,9 @@ def route(app):
             return r.message, 404
 
     # Delete a note
-    @app.route("/note/<note_id>", methods=['DELETE'])
+    @app.route("/notes/<note_id>", methods=['DELETE'])
     def delete_note(note_id):
+        """Deletes a note by ID"""
         try:
             note_service.delete_note(int(note_id))
             return "Deleted Successfully", 200
