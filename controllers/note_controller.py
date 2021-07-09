@@ -51,6 +51,8 @@ def route(app):
                 notes = note_service.get_all_notes_for_trainee(int(trainee))
             elif week is not None and trainee is not None:
                 # if you pass the week number in the request
+                if int(week) > 12:
+                    raise ValueError()
                 notes = note_service.get_all_notes_for_trainee_for_week(int(trainee), int(week))
             else:
                 # if you don't pass anything
@@ -59,7 +61,7 @@ def route(app):
             return jsonify(json_notes), 200
         except ValueError:
             # Bad week number passed
-            return "Invalid week number", 400
+            return "Invalid week number", 422
         except ResourceNotFound as r:
             # Bad trainee id passed
             return r.message, 404
@@ -68,13 +70,14 @@ def route(app):
     @app.route("/note/<note_id>", methods=['PUT'])
     def update_note(note_id):
         try:
-            note = note_service.get_single_note(int(note_id))
+            body = request.json
+            note = Note.json_parse(body)
             note.note_id = int(note_id)
             note_service.update_note(note)
-            return note
+            return note.json()
         except ValueError:
             # tried to update the note with bad values such as week number
-            return INVALID_ID_ERROR, 400
+            return "Invalid week number", 422
         except ResourceNotFound as r:
             # couldn't find the note or updated the note with bad trainee or batch ids
             return r.message, 404
@@ -84,7 +87,7 @@ def route(app):
     def delete_note(note_id):
         try:
             note_service.delete_note(int(note_id))
-            return True
+            return "Deleted Successfully", 200
         except ResourceNotFound as r:
             # note id is invalid
             return r.message, 404

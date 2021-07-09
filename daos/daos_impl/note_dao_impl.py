@@ -23,7 +23,7 @@ class NoteDAOImpl(NoteDao):
             return note
         except psycopg2.Error as e:
             if int(e.pgcode) == 23503 or int(e.pgcode) == 42830:
-                raise ResourceNotFound("The foriegn keys provided do not exist")
+                raise ResourceNotFound("The foreign keys provided do not exist")
 
 
     def get_single_note(self, cursor, note_id: int) -> Note:
@@ -58,14 +58,20 @@ class NoteDAOImpl(NoteDao):
 
     def update_note(self, cursor, updated: Note) -> Note:
         """Updates note"""
-        sql = "update notes set batch_id = %s, cont = %s, associate_id = %s, week_number = %s where id = %s returning id"
-        cursor.execute(sql, (updated.batch_id, updated.content, updated.associate_id, updated.week_number, updated.note_id))
-        conn.commit()
-        n_id = cursor.fetchone()
-        if n_id is not None:
-            return updated
-        else:
-            raise ResourceNotFound("Note could not be found")
+        if updated.week_number > 12:
+            raise ValueError()
+        try:
+            sql = "update notes set batch_id = %s, cont = %s, associate_id = %s, week_number = %s where id = %s returning id"
+            cursor.execute(sql, (updated.batch_id, updated.content, updated.associate_id, updated.week_number, updated.note_id))
+            conn.commit()
+            n_id = cursor.fetchone()
+            if n_id is not None:
+                return updated
+            else:
+                raise ResourceNotFound("Note could not be found")
+        except psycopg2.Error as e:
+            if int(e.pgcode) == 23503 or int(e.pgcode) == 42830:
+                raise ResourceNotFound("The foreign keys provided do not exist")
 
     def delete_note(self, cursor, note_id: int) -> bool:
         """Deletes a note and returns True if successful"""
