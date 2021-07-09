@@ -6,10 +6,10 @@ from utils.json_tool import convert_list_to_json
 
 INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
-def route(app):
 
+def route(app):
     # Get associate by id endpoint
-    @app.route("/associate/<associate_id>", methods=['GET'])
+    @app.route("/associates/<associate_id>", methods=['GET'])
     def get_associate_id(associate_id):
         """Get a specific Associate by their ID"""
         try:
@@ -20,7 +20,7 @@ def route(app):
         except ResourceNotFound as r:
             return r.message, 404
 
-    @app.route("/associate/<associate_id>/<batch_id>", methods=['GET'])
+    @app.route("/associates/<associate_id>/batches/<batch_id>", methods=['GET'])
     def get_associate_in_batch(associate_id, batch_id):
         """Get a specific Associate in the batch by their ID and a batch ID"""
         try:
@@ -31,7 +31,7 @@ def route(app):
         except ResourceNotFound as r:
             return r.message, 404
 
-    @app.route("/associates/<batch_id>", methods=['GET'])
+    @app.route("/associates/batches/<batch_id>", methods=['GET'])
     def get_all_associates_in_batch(batch_id):
         """Get all Associates in a batch by the batch ID"""
         try:
@@ -42,4 +42,3 @@ def route(app):
             return INVALID_ID_ERROR, 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
-
