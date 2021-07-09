@@ -10,7 +10,7 @@ INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 
 def route(app):
-    @app.route("/batch", methods=["POST"])
+    @app.route("/batches", methods=["POST"])
     def create_batch():
         """Creates a Batch object using inputs from JSON"""
         try:
@@ -23,17 +23,17 @@ def route(app):
         except ValueError as e:
             return str(e), 400
 
-    @app.route("/batch/<id>/", methods=["GET"])
-    def get_batch_by_id(id):
+    @app.route("/batches/<batch_id>", methods=["GET"])
+    def get_batch_by_id(batch_id):
         """Takes in an id for a batch record and returns a Batch object"""
         try:
-            return jsonify(BatchServices.get_batch_by_id(int(id)).json())
+            return jsonify(BatchServices.get_batch_by_id(int(batch_id)).json())
         except ValueError:
             return INVALID_ID_ERROR, 400  # Bad Request
         except ResourceNotFound as r:
             return r.message, 404
 
-    @app.route("/batches/<trainer_id>/<year>/", methods=["GET"])
+    @app.route("/batches/trainers/<trainer_id>/years/<year>", methods=["GET"])
     def get_all_batches_by_year(trainer_id, year):
         """Takes in a year and returns all the batches currently in progress for that year"""
         try:
@@ -43,7 +43,7 @@ def route(app):
         batches_as_json = convert_list_to_json(batches)
         return jsonify(batches_as_json)
 
-    @app.route("/batches/search/<trainer_id>/<track>/", methods=["GET"])
+    @app.route("/batches/trainers/<trainer_id>/tracks/<track>", methods=["GET"])
     def search_for_batch(trainer_id, track):
         try:
             batches = BatchServices.search_for_batch(int(trainer_id), track)

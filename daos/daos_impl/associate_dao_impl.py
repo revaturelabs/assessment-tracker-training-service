@@ -5,6 +5,7 @@ from models.associate import Associate
 
 
 class AssociateDAOImpl(AssociateDAO):
+
     @staticmethod
     def get_associate_by_id(cursor, associate_id):
         """Get a specific Associate by their ID"""
@@ -65,7 +66,6 @@ class AssociateDAOImpl(AssociateDAO):
     @staticmethod
     def create_associate(cursor, associate: Associate) -> Associate:
         """Create a new associate"""
-        # ! For testing use only
         sql = """\
             insert into
                 associates
@@ -79,10 +79,8 @@ class AssociateDAOImpl(AssociateDAO):
         return associate
 
     @staticmethod
-    def create_associate_batch(cursor, associate: Associate, batch: Batch,
-                               training_status: str):
+    def create_associate_batch(cursor, associate: Associate, batch: Batch):
         """Create a new associate_batch join"""
-        # ! For testing use only
         sql = """\
             insert into
                 associate_batches
@@ -90,6 +88,6 @@ class AssociateDAOImpl(AssociateDAO):
                 (%s, %s, %s, %s, %s)"""
         cursor.execute(sql, [
             associate.id, batch.id, batch.start_date, batch.end_date,
-            training_status
+            associate.training_status
         ])
         return True
