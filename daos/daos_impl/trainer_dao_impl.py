@@ -70,3 +70,19 @@ class TrainerDAOImpl(TrainerDAO):
             years.add(floor(year[0]))
 
         return years
+
+    @staticmethod
+    def create_trainer(cursor, trainer: Trainer) -> Trainer:
+        """Create a new trainer"""
+        # ! For testing use only
+        sql = """\
+            insert into
+                trainers
+            values
+                (default, %s, %s, %s)
+            returning
+                id"""
+        cursor.execute(sql,
+                       [trainer.email, trainer.first_name, trainer.last_name])
+        trainer.id = cursor.fetchone()[0]
+        return trainer
