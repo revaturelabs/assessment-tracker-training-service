@@ -11,7 +11,7 @@ conn = Connection.conn
 
 class NoteDAOImpl(NoteDao):
     def add_note(self, cursor, note: Note) -> Note:
-        if note.week_number > 12:
+        if note.week_number < 0:
             raise ValueError()
         try:
             """Creates a note for an Associate on a given week for a Batch"""
@@ -58,7 +58,7 @@ class NoteDAOImpl(NoteDao):
 
     def update_note(self, cursor, updated: Note) -> Note:
         """Updates note"""
-        if updated.week_number > 12:
+        if updated.week_number < 0:
             raise ValueError()
         try:
             sql = "update notes set batch_id = %s, cont = %s, associate_id = %s, week_number = %s where id = %s returning id"

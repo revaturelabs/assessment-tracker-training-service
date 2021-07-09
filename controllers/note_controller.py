@@ -67,7 +67,7 @@ def route(app):
                 notes = note_service.get_all_notes_for_trainee(int(trainee))
             elif week is not None and trainee is not None:
                 # if you pass the week number in the request
-                if int(week) > 12:
+                if int(week) < 0:
                     raise ValueError()
                 notes = note_service.get_all_notes_for_trainee_for_week(int(trainee), int(week))
             else:
