@@ -79,8 +79,7 @@ class AssociateDAOImpl(AssociateDAO):
         return associate
 
     @staticmethod
-    def create_associate_batch(cursor, associate: Associate, batch: Batch,
-                               training_status: str):
+    def create_associate_batch(cursor, associate: Associate, batch: Batch):
         """Create a new associate_batch join"""
         # ! For testing use only
         sql = """\
@@ -90,6 +89,6 @@ class AssociateDAOImpl(AssociateDAO):
                 (%s, %s, %s, %s, %s)"""
         cursor.execute(sql, [
             associate.id, batch.id, batch.start_date, batch.end_date,
-            training_status
+            associate.training_status
         ])
         return True
