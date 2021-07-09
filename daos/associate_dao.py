@@ -17,3 +17,7 @@ class AssociateDAO(ABC):
     @abstractmethod
     def create_associate(cursor, associate: Associate) -> Associate:
         pass
+
+    @abstractmethod
+    def get_all_associates_in_batch(self, batch_id):
+        pass
