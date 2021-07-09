@@ -1,10 +1,16 @@
 from daos.daos_impl.batch_dao_impl import BatchDAOImpl
+from models.batch import Batch
 from utils.connection import Connection
 
 conn = Connection.conn
 
-
 class BatchServices:
+    @classmethod
+    def create_batch(cls, batch: Batch):
+        with conn:
+            with conn.cursor() as cursor:
+                return BatchDAOImpl().create_batch(cursor, batch)
+
     @classmethod
     def get_batch_by_id(cls, batch_id):
         with conn:
