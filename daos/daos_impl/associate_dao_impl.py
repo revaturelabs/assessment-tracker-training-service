@@ -66,7 +66,6 @@ class AssociateDAOImpl(AssociateDAO):
     @staticmethod
     def create_associate(cursor, associate: Associate) -> Associate:
         """Create a new associate"""
-        # ! For testing use only
         sql = """\
             insert into
                 associates
@@ -82,7 +81,6 @@ class AssociateDAOImpl(AssociateDAO):
     @staticmethod
     def create_associate_batch(cursor, associate: Associate, batch: Batch):
         """Create a new associate_batch join"""
-        # ! For testing use only
         sql = """\
             insert into
                 associate_batches
