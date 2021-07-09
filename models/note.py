@@ -11,12 +11,12 @@ class Note(Codable):
 
     @staticmethod
     def json_parse(json):
-        toReturn = Note(0, 0, 0, 0, '')
-        toReturn.note_id = json['noteId']
-        toReturn.batch_id = json['batchId']
-        toReturn.trainee_id = json['traineeId']
-        toReturn.week_number = json['weekNumber']
-        toReturn.content = json['content']
+        to_return = Note(0, 0, 0, 0, '')
+        to_return.note_id = json['noteId']
+        to_return.batch_id = json['batchId']
+        to_return.trainee_id = json['traineeId']
+        to_return.week_number = json['weekNumber']
+        to_return.content = json['content']
 
     def json(self):
         json = {}
