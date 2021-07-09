@@ -25,7 +25,7 @@ def route(app):
             return fresh_note.json(), 201
         except ValueError:
             # This error might be thrown if the week number is invalid
-            return INVALID_ID_ERROR, 422
+            return "Invalid week number provided", 422
         except ResourceNotFound as r:
             # This error might be thrown if their is no such batch or trainee
             return r.message, 422
