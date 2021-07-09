@@ -61,7 +61,7 @@ class TrainerDAOImpl(TrainerDAO):
     @staticmethod
     def get_years_for_trainer(cursor, trainer_id):
         """Takes in a year and returns all the batches currently in progress for that year"""
-        sql = "SELECT date_part('year', b.start_date) " \
+        sql = "SELECT date_part('year', to_timestamp(b.start_date)) " \
               "FROM batches as b " \
               "left join trainer_batches as tb " \
               "on b.id = tb.batch_id " \

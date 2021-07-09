@@ -1,8 +1,7 @@
 import datetime
 import psycopg2
-from flask import jsonify, request
-
 from exceptions.resource_not_found import ResourceNotFound
+from flask import jsonify, request
 from models.batch import Batch
 from services.batch_services import BatchServices
 from utils.json_tool import convert_list_to_json
@@ -14,14 +13,15 @@ def route(app):
     @app.route("/batches", methods=["POST"])
     def create_batch():
         """Creates a Batch object using inputs from JSON"""
-        # General date format example: "2021-12-19"
         try:
             body = request.json
             batch = Batch(body["name"], body["trainingTrack"], body["startDate"], body["endDate"])
             result = BatchServices.create_batch(batch)
             return f"Batch [{body['name']}] successfully created with an id of {result.id}", 201
-        except psycopg2.errors.InvalidDatetimeFormat:
-            return f"Start date or end date are not valid date", 400  # Bad Request
+        except psycopg2.errors.InvalidDatetimeFormat as e:
+            return str(e), 400  # Bad Request
+        except ValueError as e:
+            return str(e), 400
 
     @app.route("/batches/<batch_id>", methods=["GET"])
     def get_batch_by_id(batch_id):
