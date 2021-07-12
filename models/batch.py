@@ -49,15 +49,7 @@ class Batch(Codable):
         return floor(abs((datetime.fromtimestamp(self.end_date).date() - datetime.fromtimestamp(
             self.start_date).date()).days / 7))
 
-class TestBatch(unittest.TestCase):
-    def test_weeks_between(self):
-        start = 1620836259
-        end = 1636733874
-        print(datetime.fromtimestamp(start))
-        print(datetime.fromtimestamp(end))
-        batch = Batch("New Batch", "Still don't know", start, end)
-        print(batch.current_week())
-        assert batch.total_weeks() >= 8
+
 
 
 
