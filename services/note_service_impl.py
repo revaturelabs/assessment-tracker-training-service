@@ -1,3 +1,5 @@
+from typing import List
+
 from daos.note_dao import NoteDao
 from models.note import Note
 from services.note_service import NoteService
@@ -21,7 +23,7 @@ class NoteServiceImpl(NoteService):
             with conn.cursor() as cursor:
                 return self.note_dao.get_single_note(cursor, note_id)
 
-    def get_all_notes(self) -> list[Note]:
+    def get_all_notes(self) -> List[Note]:
         with conn:
             with conn.cursor() as cursor:
                 return self.note_dao.get_all_notes(cursor)
@@ -36,7 +38,7 @@ class NoteServiceImpl(NoteService):
             with conn.cursor() as cursor:
                 return self.note_dao.delete_note(cursor, note_id)
 
-    def get_all_notes_for_trainee(self, associate_id: int) -> list[Note]:
+    def get_all_notes_for_trainee(self, associate_id: int) -> List[Note]:
         with conn:
             with conn.cursor() as cursor:
                 all_notes = self.note_dao.get_all_notes(cursor)
@@ -47,7 +49,7 @@ class NoteServiceImpl(NoteService):
                 return to_return
 
     def get_all_notes_for_trainee_for_week(self, associate_id: int,
-                                           week_number: int) -> list[Note]:
+                                           week_number: int) -> List[Note]:
         with conn:
             with conn.cursor() as cursor:
                 all_notes = self.note_dao.get_all_notes(cursor)

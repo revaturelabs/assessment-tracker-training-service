@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 from models.note import Note
 
@@ -16,7 +17,7 @@ class NoteService(ABC):
         pass
 
     @abstractmethod
-    def get_all_notes(self) -> list[Note]:
+    def get_all_notes(self) -> List[Note]:
         pass
 
     # Update
@@ -31,10 +32,10 @@ class NoteService(ABC):
 
     # Business Logic
     @abstractmethod
-    def get_all_notes_for_trainee(self, associate_id: int) -> list[Note]:
+    def get_all_notes_for_trainee(self, associate_id: int) -> List[Note]:
         pass
 
     @abstractmethod
     def get_all_notes_for_trainee_for_week(self, associate_id: int,
-                                           week_number: int) -> list[Note]:
+                                           week_number: int) -> List[Note]:
         pass
