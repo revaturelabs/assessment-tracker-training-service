@@ -1,5 +1,4 @@
 import psycopg2
-from psycopg2 import errors
 
 from daos.note_dao import NoteDao
 from exceptions.resource_not_found import ResourceNotFound
@@ -24,7 +23,6 @@ class NoteDAOImpl(NoteDao):
         except psycopg2.Error as e:
             if int(e.pgcode) == 23503 or int(e.pgcode) == 42830:
                 raise ResourceNotFound("The foreign keys provided do not exist")
-
 
     def get_single_note(self, cursor, note_id: int) -> Note:
         """Takes in an id for a note record and returns a Note object"""
@@ -62,7 +60,8 @@ class NoteDAOImpl(NoteDao):
             raise ValueError()
         try:
             sql = "update notes set batch_id = %s, cont = %s, associate_id = %s, week_number = %s where id = %s returning id"
-            cursor.execute(sql, (updated.batch_id, updated.content, updated.associate_id, updated.week_number, updated.note_id))
+            cursor.execute(sql, (
+            updated.batch_id, updated.content, updated.associate_id, updated.week_number, updated.note_id))
             conn.commit()
             n_id = cursor.fetchone()
             if n_id is not None:
