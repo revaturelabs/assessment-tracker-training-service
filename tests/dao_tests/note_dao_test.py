@@ -13,7 +13,8 @@ conn = Connection().conn
 
 ASSOCIATE = Associate("Testy", "McTesterson", "test@test.test", "")
 BATCH = Batch("TestBatch", "Python Automation", 1625788800, 1631145600)
-TEST_NOTE = Note(0, 1, 1, 1, "Test Note")
+NOTE_NAME = "Test Note"
+TEST_NOTE = Note(0, 1, 1, 1, NOTE_NAME)
 
 
 def test_create_note():
@@ -23,7 +24,7 @@ def test_create_note():
             batch = copy(BATCH)
             associate.id = a.create_associate(cursor, associate).id
             batch.id = b.create_batch(cursor, batch).id
-            test_note = Note(0, batch.id, associate.id, 1, "Test Note")
+            test_note = Note(0, batch.id, associate.id, 1, NOTE_NAME)
             test_note.note_id = n.add_note(cursor, test_note).note_id
             assert test_note.note_id != 0
         conn.rollback()
@@ -36,7 +37,7 @@ def test_get_single_note():
             batch = copy(BATCH)
             associate.id = a.create_associate(cursor, associate).id
             batch.id = b.create_batch(cursor, batch).id
-            test_note = Note(0, batch.id, associate.id, 1, "Test Note")
+            test_note = Note(0, batch.id, associate.id, 1, NOTE_NAME)
             test_note.note_id = n.add_note(cursor, test_note).note_id
             assert n.get_single_note(cursor, test_note.note_id)
         conn.rollback()
@@ -49,7 +50,7 @@ def test_get_single_note_fail():
             batch = copy(BATCH)
             associate.id = a.create_associate(cursor, associate).id
             batch.id = b.create_batch(cursor, batch).id
-            test_note = Note(0, batch.id, associate.id, 1, "Test Note")
+            test_note = Note(0, batch.id, associate.id, 1, NOTE_NAME)
             test_note.note_id = n.add_note(cursor, test_note).note_id
             with raises(ResourceNotFound):
                 n.get_single_note(cursor, 200)
@@ -63,7 +64,7 @@ def test_get_all_notes():
             batch = copy(BATCH)
             associate.id = a.create_associate(cursor, associate).id
             batch.id = b.create_batch(cursor, batch).id
-            test_note = Note(0, batch.id, associate.id, 1, "Test Note")
+            test_note = Note(0, batch.id, associate.id, 1, NOTE_NAME)
             test_note.note_id = n.add_note(cursor, test_note).note_id
             notes = n.get_all_notes(cursor)
             assert len(notes) != 0
@@ -77,7 +78,7 @@ def test_update_note():
             batch = copy(BATCH)
             associate.id = a.create_associate(cursor, associate).id
             batch.id = b.create_batch(cursor, batch).id
-            test_note = Note(0, batch.id, associate.id, 1, "Test Note")
+            test_note = Note(0, batch.id, associate.id, 1, NOTE_NAME)
             test_note.note_id = n.add_note(cursor, test_note).note_id
             upd_note = n.get_single_note(cursor, test_note.note_id)
             upd_note.content = 'Updated content'
@@ -103,7 +104,7 @@ def test_delete_note():
             batch = copy(BATCH)
             associate.id = a.create_associate(cursor, associate).id
             batch.id = b.create_batch(cursor, batch).id
-            test_note = Note(0, batch.id, associate.id, 1, "Test Note")
+            test_note = Note(0, batch.id, associate.id, 1, NOTE_NAME)
             test_note.note_id = n.add_note(cursor, test_note).note_id
             assert n.delete_note(cursor, test_note.note_id)
         conn.rollback()
