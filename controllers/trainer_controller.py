@@ -47,10 +47,3 @@ def route(app):
                 return INVALID_ID_ERROR, 400  # Bad Request
         else:
             return jsonify([])
-
-    # @app.route("/trainers/<trainer_id>/years", methods=["GET"])
-    # def get_years_for_trainer(trainer_id):
-    #     try:
-    #         return jsonify(TrainerService.get_years_for_trainer(int(trainer_id)))
-    #     except ValueError:
-    #         return INVALID_ID_ERROR, 400  # Bad Request
