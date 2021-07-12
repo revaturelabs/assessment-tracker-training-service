@@ -42,17 +42,11 @@ class Batch(Codable):
 
     def current_week(self):
         """Returns the current week of training(today - start_date)"""
-        return floor(abs((datetime.now().date() - self.start_date).days / 7))
+        return floor(abs((datetime.now().date() - datetime.fromtimestamp(self.start_date).date()).days / 7))
 
     def total_weeks(self):
         """Returns the total weeks of training(end_date - start_date)"""
-        return floor(abs((self.end_date - self.start_date).days / 7))
+        return floor(abs((datetime.fromtimestamp(self.end_date).date() - datetime.fromtimestamp(
+            self.start_date).date()).days / 7))
 
 
-class TestBatch(unittest.TestCase):
-
-    def test_weeks_between(self):
-        start = datetime.strptime("2021-05-20", "%Y-%m-%d")
-        end = datetime.strptime("2021-06-20", "%Y-%m-%d")
-        batch = Batch("New Batch", "Still dont know", start, end)
-        assert batch.current_week() == 4

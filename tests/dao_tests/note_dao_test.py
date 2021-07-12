@@ -39,7 +39,7 @@ class NoteDAOTest(unittest.TestCase):
     def test_get_all_notes(self):
         with conn:
             with conn.cursor() as cursor:
-                assert note_dao.get_all_notes(cursor)
+                assert len(note_dao.get_all_notes(cursor)) >= 1
             conn.rollback()
 
     def test_update_note(self):
