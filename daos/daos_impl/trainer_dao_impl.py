@@ -5,12 +5,10 @@ from models.batch import Batch
 from daos.trainer_dao import TrainerDAO
 from exceptions.resource_not_found import ResourceNotFound
 from models.trainer import Trainer
-from utils.connection import Connection
-
-conn = Connection.conn
 
 
 class TrainerDAOImpl(TrainerDAO):
+
     @staticmethod
     def get_trainer_by_id(cursor, trainer_id):
         sql = "SELECT * FROM trainers WHERE id=%s"
@@ -92,8 +90,7 @@ class TrainerDAOImpl(TrainerDAO):
         return trainer
 
     @staticmethod
-    def create_trainer_batch(cursor, trainer: Trainer, batch: Batch,
-                             role: str):
+    def create_trainer_batch(cursor, trainer: Trainer, batch: Batch, role: str):
         """Create a new trainer_batch join"""
         # ! For testing use only
         sql = """\
@@ -102,6 +99,5 @@ class TrainerDAOImpl(TrainerDAO):
             values
                 (%s, %s, %s, %s, %s)"""
         cursor.execute(
-            sql,
-            [trainer.id, batch.id, batch.start_date, batch.end_date, role])
+            sql, [trainer.id, batch.id, batch.start_date, batch.end_date, role])
         return True
