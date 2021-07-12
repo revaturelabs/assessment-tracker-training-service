@@ -7,7 +7,8 @@ from models.note import Note
 
 class NoteDAOImpl(NoteDao):
 
-    def add_note(self, cursor, note: Note) -> Note:
+    @staticmethod
+    def add_note(cursor, note: Note) -> Note:
         if note.week_number < 0:
             raise ValueError()
         try:
@@ -22,7 +23,8 @@ class NoteDAOImpl(NoteDao):
             if int(e.pgcode) == 23503 or int(e.pgcode) == 42830:
                 raise ResourceNotFound("The foreign keys provided do not exist")
 
-    def get_single_note(self, cursor, note_id: int) -> Note:
+    @staticmethod
+    def get_single_note(cursor, note_id: int) -> Note:
         """Takes in an id for a note record and returns a Note object"""
         sql = "select * from notes where id = %s"
         cursor.execute(sql, [note_id])
@@ -38,7 +40,8 @@ class NoteDAOImpl(NoteDao):
         else:
             raise ResourceNotFound("No note could be found with the given id")
 
-    def get_all_notes(self, cursor) -> list[Note]:
+    @staticmethod
+    def get_all_notes(cursor) -> list[Note]:
         """Returns all the notes"""
         sql = "select * from notes"
         cursor.execute(sql)
@@ -53,7 +56,8 @@ class NoteDAOImpl(NoteDao):
                      week_number=note[4]))
         return notes
 
-    def update_note(self, cursor, updated: Note) -> Note:
+    @staticmethod
+    def update_note(cursor, updated: Note) -> Note:
         """Updates note"""
         if updated.week_number < 0:
             raise ValueError()
@@ -71,7 +75,8 @@ class NoteDAOImpl(NoteDao):
             if int(e.pgcode) == 23503 or int(e.pgcode) == 42830:
                 raise ResourceNotFound("The foreign keys provided do not exist")
 
-    def delete_note(self, cursor, note_id: int) -> bool:
+    @staticmethod
+    def delete_note(cursor, note_id: int) -> bool:
         """Deletes a note and returns True if successful"""
         sql = "delete from notes where id = %s returning id"
         cursor.execute(sql, [note_id])
