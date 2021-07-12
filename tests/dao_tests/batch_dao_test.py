@@ -1,4 +1,6 @@
 from copy import copy
+from datetime import datetime
+
 from models.trainer import Trainer
 from daos.daos_impl.batch_dao_impl import BatchDAOImpl as b
 from daos.daos_impl.trainer_dao_impl import TrainerDAOImpl as t
@@ -39,6 +41,11 @@ def test_invalid_date_value_create_batch():
             with conn.cursor() as cursor:
                 test_batch = b.create_batch(cursor, test_batch)
 
+def test_total_weeks():
+    start = 1626106659
+    end = 1636733874
+    batch = Batch("New Batch", "Epoch Time", start, end)
+    assert batch.total_weeks() == 8
 
 def test_get_all_batches_by_year():
     with conn:

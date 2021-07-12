@@ -1,5 +1,4 @@
 import psycopg2
-from psycopg2 import errors
 
 from daos.note_dao import NoteDao
 from exceptions.resource_not_found import ResourceNotFound
@@ -16,7 +15,6 @@ class NoteDAOImpl(NoteDao):
             sql = "insert into notes (batch_id, cont, associate_id, week_number) values(%s, %s, %s, %s) returning id"
             cursor.execute(sql, (note.batch_id, note.content, note.associate_id,
                                  note.week_number))
-            conn.commit()
             n_id = cursor.fetchone()[0]
             note.note_id = n_id
             return note
@@ -64,7 +62,6 @@ class NoteDAOImpl(NoteDao):
             cursor.execute(
                 sql, (updated.batch_id, updated.content, updated.associate_id,
                       updated.week_number, updated.note_id))
-            conn.commit()
             n_id = cursor.fetchone()
             if n_id is not None:
                 return updated
@@ -78,7 +75,6 @@ class NoteDAOImpl(NoteDao):
         """Deletes a note and returns True if successful"""
         sql = "delete from notes where id = %s returning id"
         cursor.execute(sql, [note_id])
-        conn.commit()
         n_id = cursor.fetchone()
         if n_id is not None:
             return True
