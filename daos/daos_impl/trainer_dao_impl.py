@@ -1,3 +1,4 @@
+from datetime import datetime
 from math import floor
 from models.batch import Batch
 
@@ -59,7 +60,7 @@ class TrainerDAOImpl(TrainerDAO):
     @staticmethod
     def get_years_for_trainer(cursor, trainer_id):
         """Takes in a year and returns all the batches currently in progress for that year"""
-        sql = "SELECT date_part('year', to_timestamp(b.start_date)) " \
+        sql = "SELECT b.start_date " \
               "FROM batches as b " \
               "left join trainer_batches as tb " \
               "on b.id = tb.batch_id " \
@@ -68,7 +69,7 @@ class TrainerDAOImpl(TrainerDAO):
         records = cursor.fetchall()
         years = set()
         for year in records:
-            years.add(floor(year[0]))
+            years.add(datetime.fromtimestamp(year[0]).year)
 
         return years
 
