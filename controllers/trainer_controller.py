@@ -39,7 +39,7 @@ def route(app):
     #/years?trainer_id=<trainer_id>
     @app.route("/years", methods=["GET"])
     def get_years_for_trainer():
-        trainer_id = request.args.get("trainer_id")
+        trainer_id = request.args.get("trainerId")
         if trainer_id is not None:
             try:
                 return jsonify(TrainerService.get_years_for_trainer(int(trainer_id)))

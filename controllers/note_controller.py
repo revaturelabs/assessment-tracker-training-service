@@ -56,28 +56,21 @@ def route(app):
     @app.route("/notes", methods=['GET'])
     def get_notes_all():
         """ Gets all notes
-            /notes?traineeId=int to specify trainee by id
-            /notes?traineeId=int&week=int to specify trainee and week number
         """
+        notes = note_service.get_all_notes()
+        json_notes = [note.json() for note in notes]
+        return jsonify(json_notes), 200
+
+    @app.get("/associates/<associate_id>/notes")
+    def get_notes_for_associate(associate_id):
+        week = request.args.get("week")
         try:
-            trainee = request.args.get("traineeId")
-            week = request.args.get("week")
-            if trainee is not None and week is None:
-                # if you pass the trainee id in the request
-                notes = note_service.get_all_notes_for_trainee(int(trainee))
-            elif week is not None and trainee is not None:
-                # if you pass the week number in the request
-                if int(week) < 0:
-                    raise ValueError()
-                notes = note_service.get_all_notes_for_trainee_for_week(int(trainee), int(week))
+            if week is not None:
+                notes = note_service.get_all_notes_for_trainee_for_week(int(associate_id), int(week))
             else:
-                # if you don't pass anything
-                notes = note_service.get_all_notes()
+                notes = note_service.get_all_notes_for_trainee(int(associate_id))
             json_notes = [note.json() for note in notes]
             return jsonify(json_notes), 200
-        except ValueError:
-            # Bad week number passed
-            return "Invalid week number", 422
         except ResourceNotFound as r:
             # Bad trainee id passed
             return r.message, 404

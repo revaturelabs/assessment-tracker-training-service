@@ -35,7 +35,7 @@ def route(app):
 
     @app.get("/batches")
     def get_all_batches_by_query():
-        trainer_id = request.args.get("trainer_id")
+        trainer_id = request.args.get("trainerId")
         year = request.args.get("year")
         track = request.args.get("track")
         if trainer_id is not None and year is not None:

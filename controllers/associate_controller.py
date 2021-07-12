@@ -65,7 +65,7 @@ def route(app):
                                   body["email"], body["trainingStatus"])
             associate.id = AssociateServices.create_associate_in_batch(
                 associate, body["batchId"]).id
-            return jsonify(associate.json()), 200
+            return jsonify(associate.json()), 201
         except ValueError:
             return INVALID_ID_ERROR, 400  # Bad Request
         except ResourceNotFound as r:
