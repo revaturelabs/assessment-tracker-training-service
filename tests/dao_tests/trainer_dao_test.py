@@ -7,9 +7,9 @@ from daos.daos_impl.batch_dao_impl import BatchDAOImpl as b
 from exceptions.resource_not_found import ResourceNotFound
 from utils.connection import Connection
 
-conn = Connection.conn
+conn = Connection().conn
 
-BATCH = Batch("TestBatch", "Python Automation", 1625788800,  1631145600)
+BATCH = Batch("TestBatch", "Python Automation", 1625788800, 1631145600)
 TRAINER = Trainer("Trainer", "McTrainerFace", "i@like.trains")
 
 

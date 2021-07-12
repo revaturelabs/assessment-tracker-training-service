@@ -8,7 +8,7 @@ from models.batch import Batch
 from pytest import raises
 from utils.connection import Connection
 
-conn = Connection.conn
+conn = Connection().conn
 ASSOCIATE = Associate("Testy", "McTesterson", "test@test.test", "")
 BATCH = Batch("Batchy", "Snek", 1625788800, 1631145600)
 

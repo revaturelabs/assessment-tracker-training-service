@@ -5,16 +5,15 @@ from psycopg2 import connect
 
 class Connection():
 
-    # def __init__(self, test: bool = False):
-    #     self.test = test
+    def __init__(self, test: bool = False):
+        self.conn = connect(**self.load_conn(test))
 
-    def load_conn():
+    def load_conn(self, test):
         conn_file = "conn_cred.ini"
-        # if self.test:
-        #     section = "postgresql_test"
-        # else:
-        #     section = "postgresql"
-        section = "postgresql"
+        if test:
+            section = "postgresql_test"
+        else:
+            section = "postgresql"
         parser = ConfigParser()
         db = {}
 
@@ -35,8 +34,7 @@ class Connection():
 
         return db
 
-    conn = connect(**load_conn())
-
 
 if __name__ == "__main__":
-    Connection()
+    conn = Connection().conn
+    print(conn)

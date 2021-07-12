@@ -2,21 +2,21 @@ import psycopg2
 from daos.batch_dao import BatchDAO
 from exceptions.resource_not_found import ResourceNotFound
 from models.batch import Batch
-from utils.connection import Connection
-
-conn = Connection.conn
 
 
 class BatchDAOImpl(BatchDAO):
+
     @staticmethod
     def create_batch(cursor, batch: Batch) -> Batch:
         if type(batch.start_date) != int or type(batch.end_date) != int:
             raise psycopg2.errors.InvalidDatetimeFormat(
-                f"{batch.start_date} and {batch.end_date} are in invalid format.")
+                f"{batch.start_date} and {batch.end_date} are in invalid format."
+            )
         elif batch.start_date < batch.end_date:
             sql = """insert into batches values(default, %s, %s, %s, %s)  returning id;"""
             cursor.execute(sql, [
-                batch.start_date, batch.end_date, batch.name, batch.training_track
+                batch.start_date, batch.end_date, batch.name,
+                batch.training_track
             ])
             batch.id = cursor.fetchone()[0]
             return batch

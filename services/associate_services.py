@@ -3,7 +3,7 @@ from models.associate import Associate
 from daos.daos_impl.associate_dao_impl import AssociateDAOImpl
 from utils.connection import Connection
 
-conn = Connection.conn
+conn = Connection().conn
 
 
 class AssociateServices:

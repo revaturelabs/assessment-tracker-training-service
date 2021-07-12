@@ -1,7 +1,7 @@
 from daos.daos_impl.trainer_dao_impl import TrainerDAOImpl
 from utils.connection import Connection
 
-conn = Connection.conn
+conn = Connection().conn
 
 
 class TrainerService:

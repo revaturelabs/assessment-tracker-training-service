@@ -5,7 +5,7 @@ from exceptions.resource_not_found import ResourceNotFound
 from models.note import Note
 from utils.connection import Connection
 
-conn = Connection.conn
+conn = Connection().conn
 
 note_dao = NoteDAOImpl()
 
@@ -13,6 +13,7 @@ test_note = Note(0, 1, 1, 1, "Test Note")
 
 
 class NoteDAOTest(unittest.TestCase):
+
     def test_create_note(self):
         with conn:
             with conn.cursor() as cursor:
