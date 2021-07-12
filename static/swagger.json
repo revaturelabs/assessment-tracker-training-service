@@ -30,7 +30,7 @@
         "tags": ["admin"],
         "summary": "Create a new Batch",
         "requestBody": {
-          "description": "Creates a new Batch obj",
+          "description": "Creates a Batch object using inputs from JSON",
           "required": true,
           "content": {
             "application/json":{
@@ -40,23 +40,137 @@
             }
           }
         },
-        "produces": ["application/json"],
         "responses": {
           "201": {
+            "description": "Batch successfully created!"
+          },
+          "400": {
+            "description": "Bad request!"
+          }
+        }
+      }
+    },
+    "/batches/{batch_id}": {
+      "parameters": [
+        {
+          "name": "batch_id",
+          "in": "path",
+          "required": true,
+          "description": "Batch Id",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["admin"],
+        "summary": "Takes in an id for a batch record and returns a Batch objec",
+        "responses": {
+          "200": {
             "description": "OK",
-            "schema" : {
-              "$ref": "#/components/schemas/createBatch"
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/batchResponseBody"
+                }
+              }
             }
           },
           "400": {
-            "description": "Bad",
-            "schema" : {
-              "$ref": "#"
+            "description": "Bad request!"
+          }
+        }
+      }
+    },
+    "/trainers/{trainer_id}/batches?year=2021": {
+      "parameters": [
+        {
+          "name": "trainer_id",
+          "in": "path",
+          "required": true,
+          "description": "Trainer Id",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "year",
+          "in": "query",
+          "required": true,
+          "description": "Year",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["admin"],
+        "summary": "Get a list of batches associated with the given trainer for the given year",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/batchResponseBody"
+                  }
+                }
+              }
             }
+          },
+          "400": {
+            "description": "Bad request!"
+          }
+        }
+      }
+    },
+    "/trainers/{trainer_id}/batches?track=trackName": {
+      "parameters": [
+        {
+          "name": "trainer_id",
+          "in": "path",
+          "required": true,
+          "description": "Trainer Id",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "track",
+          "in": "query",
+          "required": true,
+          "description": "Training Track",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["admin"],
+        "summary": "Get a list of batches associated with the given trainer for the given track",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/batchResponseBody"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request!"
           }
         }
       }
     }
+    
   },
   "components":{
     "schemas": {
@@ -75,6 +189,31 @@
             "type": "number"
           }
         }
+      },
+      "batchResponseBody": {
+        "properties": {
+          "currentWeek": {
+            "type": "number"
+          },
+          "endDate": {
+            "type": "number"
+          },
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "number"
+          },
+          "totalWeeks": {
+            "type": "number"
+          },
+          "trainingTrack": {
+            "type": "string"
+          }
+        }  
       }
     }
   }
