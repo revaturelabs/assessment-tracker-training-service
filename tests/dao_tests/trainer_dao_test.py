@@ -9,7 +9,7 @@ from utils.connection import Connection
 
 conn = Connection.conn
 
-BATCH = Batch("TestBatch", "Python Automation", '2021-05-19', '2021-08-19')
+BATCH = Batch("TestBatch", "Python Automation", 1625788800,  1631145600)
 TRAINER = Trainer("Trainer", "McTrainerFace", "i@like.trains")
 
 
