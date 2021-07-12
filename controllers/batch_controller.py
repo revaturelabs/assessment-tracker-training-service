@@ -33,7 +33,7 @@ def route(app):
         except ResourceNotFound as r:
             return r.message, 404
 
-    @app.get("/trainer/<trainer_id>/batches")
+    @app.get("/trainers/<trainer_id>/batches")
     def get_all_batches_by_query(trainer_id):
         year = request.args.get("year")
         track = request.args.get("track")

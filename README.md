@@ -20,9 +20,9 @@
   - Return 201 on success
 - GET /batches/<batch_id>
     - Get Batch with given batch ID
-- GET /trainer/<trainer_id>/batches?year=<year>
+- GET /trainers/<trainer_id>/batches?year=<year>
     - Get all batches associated with the given trainer for the given year
-- GET /trainer/<trainer_id>/batches?track=<track>
+- GET /trainers/<trainer_id>/batches?track=<track>
     - Get all batches associated with the given trainer for the given track
 - POST /batches
     - Creates a new batch
