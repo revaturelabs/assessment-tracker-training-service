@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime, date
+from datetime import datetime
 from math import floor
 
 from models.codable import Codable
@@ -12,7 +12,7 @@ class Batch(Codable):
                  training_track,
                  start_date,
                  end_date,
-                 id = -1):
+                 id=-1):
         self.id = id
         self.name = name
         self.training_track = training_track
@@ -48,8 +48,5 @@ class Batch(Codable):
         """Returns the total weeks of training(end_date - start_date)"""
         return floor(abs((datetime.fromtimestamp(self.end_date).date() - datetime.fromtimestamp(
             self.start_date).date()).days / 7))
-
-
-
 
 
