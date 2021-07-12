@@ -1,0 +1,61 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "The Assessment Tracker is an application designed to help track an individual's progress through a batch training. A user can see all the batches organized by year, view a particular week for a batch, create new assessments, and organize assessments into types. Each assessment is assigned a weight to contribute to the final grade, and associates that complete a given assignment are given a grade in the application.",
+    "version": "1.0.0",
+    "title": "Assessment-Tracker-Python-Endpoints",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers":[
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "admin",
+      "description": ""
+    },
+    {
+      "name": "instructor",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/batches": {
+      "post": {
+        "tags": ["admin"],
+        "summary": "Create a new Batch",
+        "requestBody": {
+          "description": "Creates a new Batch obj",
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema": {
+                "$ref": "#"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema" : {
+              "$ref": "#"
+            }
+          },
+          "400": {
+            "description": "Bad",
+            "schema" : {
+              "$ref": "#"
+            }
+          }
+        }
+      }
+    }
+  }
+}

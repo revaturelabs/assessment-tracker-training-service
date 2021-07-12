@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime, date
+from datetime import datetime
 from math import floor
 
 from models.codable import Codable
@@ -12,7 +12,7 @@ class Batch(Codable):
                  training_track,
                  start_date,
                  end_date,
-                 id = -1):
+                 id=-1):
         self.id = id
         self.name = name
         self.training_track = training_track
@@ -56,4 +56,3 @@ class TestBatch(unittest.TestCase):
         end = datetime.strptime("2021-06-20", "%Y-%m-%d")
         batch = Batch("New Batch", "Still dont know", start, end)
         assert batch.current_week() == 4
-
