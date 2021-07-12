@@ -34,7 +34,7 @@ def route(app):
         except ResourceNotFound as r:
             return r.message, 404
 
-    @app.route("/associates/batches/<batch_id>", methods=['GET'])
+    @app.route("/batches/<batch_id>/associates", methods=['GET'])
     def get_all_associates_in_batch(batch_id):
         """Get all Associates in a batch by the batch ID"""
         try:
@@ -46,7 +46,7 @@ def route(app):
         except ResourceNotFound as r:
             return r.message, 404
 
-    @app.route("/associate", methods=["POST"])
+    @app.route("/associates", methods=["POST"])
     def post_associate_in_batch():
         """Create a new associate in a specified branch.
 
