@@ -1,5 +1,4 @@
 from copy import copy
-from datetime import datetime
 
 from models.trainer import Trainer
 from daos.daos_impl.batch_dao_impl import BatchDAOImpl as b
@@ -10,9 +9,8 @@ from utils.connection import Connection
 import psycopg2
 import pytest
 
-conn = Connection.conn
-TEST_BATCH = Batch("TestBatch", "Python Automation", 1625788800,
-                   1631145600)
+conn = Connection().conn
+TEST_BATCH = Batch("TestBatch", "Python Automation", 1625788800, 1631145600)
 TRAINER = Trainer("Trainer", "McTrainerFace", "i@like.trains")
 
 
@@ -24,6 +22,7 @@ def test_create_batch():
             assert test_batch.id != -1
         conn.rollback()
 
+
 def test_invalid_date_format_create_batch():
     with pytest.raises(psycopg2.errors.InvalidDatetimeFormat):
         test_batch: Batch = Batch("TestBatch2", "Baking", "start_date",
@@ -31,6 +30,7 @@ def test_invalid_date_format_create_batch():
         with conn:
             with conn.cursor() as cursor:
                 test_batch = b.create_batch(cursor, test_batch)
+
 
 def test_invalid_date_value_create_batch():
     with pytest.raises(ValueError):
@@ -40,11 +40,13 @@ def test_invalid_date_value_create_batch():
             with conn.cursor() as cursor:
                 test_batch = b.create_batch(cursor, test_batch)
 
+
 def test_total_weeks():
-    start = 1626106659
-    end = 1636733874
+    start = 1626113692
+    end = 1631470495
     batch = Batch("New Batch", "Epoch Time", start, end)
     assert batch.total_weeks() == 8
+
 
 def test_get_all_batches_by_year():
     with conn:

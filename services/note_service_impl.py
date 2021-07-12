@@ -3,10 +3,11 @@ from models.note import Note
 from services.note_service import NoteService
 from utils.connection import Connection
 
-conn = Connection.conn
+conn = Connection().conn
 
 
 class NoteServiceImpl(NoteService):
+
     def __init__(self, note_dao: NoteDao):
         self.note_dao = note_dao
 
@@ -45,7 +46,8 @@ class NoteServiceImpl(NoteService):
                         to_return.append(note)
                 return to_return
 
-    def get_all_notes_for_trainee_for_week(self, associate_id: int, week_number: int) -> list[Note]:
+    def get_all_notes_for_trainee_for_week(self, associate_id: int,
+                                           week_number: int) -> list[Note]:
         with conn:
             with conn.cursor() as cursor:
                 all_notes = self.note_dao.get_all_notes(cursor)
