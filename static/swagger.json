@@ -25,6 +25,158 @@
     }
   ],
   "paths": {
+    "/associates/{associate_id}": {
+      "post": {
+        "tags": ["instructor"],
+        "summary": "Get a specific Associate by their ID",
+        "requestBody": {
+          "description": "Get a specific Associate by their ID",
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema": {
+                "$ref": "#"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema" : {
+              "$ref": "#"
+            }
+          },
+          "400": {
+            "description": "Bad",
+            "schema" : {
+              "$ref": "#"
+            }
+          },
+          "404": {
+            "description": "Bad",
+            "schema" : {
+              "$ref": "#"
+            }
+          }
+        }
+      }
+    },
+    "/associates/{associate_id}/batches/{batch_id}": {
+      "post": {
+        "tags": ["instructor"],
+        "summary": "Get a specific Associate by their ID",
+        "requestBody": {
+          "description": "Get a specific Associate by their ID",
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema": {
+                "$ref": "#"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema" : {
+              "$ref": "#"
+            }
+          },
+          "400": {
+            "description": "Bad",
+            "schema" : {
+              "$ref": "#"
+            }
+          },
+          "404": {
+            "description": "Bad",
+            "schema" : {
+              "$ref": "#"
+            }
+          }
+        }
+      }
+    },
+    "/batches/{batch_id}/associates/{associate_id}": {
+      "post": {
+        "tags": ["instructor"],
+        "summary": "Get a specific Associate by their ID",
+        "requestBody": {
+          "description": "Get a specific Associate by their ID",
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema": {
+                "$ref": "#"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema" : {
+              "$ref": "#"
+            }
+          },
+          "400": {
+            "description": "Bad",
+            "schema" : {
+              "$ref": "#"
+            }
+          },
+          "404": {
+            "description": "Bad",
+            "schema" : {
+              "$ref": "#"
+            }
+          }
+        }
+      }
+    },
+    "/associates": {
+      "post": {
+        "tags": ["instructor"],
+        "summary": "Create a new associate in a specified branch.",
+        "requestBody": {
+          "description": "Get a specific Associate by their ID",
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema": {
+                "$ref": "#"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema" : {
+              "$ref": "#"
+            }
+          },
+          "400": {
+            "description": "Bad",
+            "schema" : {
+              "$ref": "#"
+            }
+          },
+          "404": {
+            "description": "Bad",
+            "schema" : {
+              "$ref": "#"
+            }
+          }
+        }
+      }
+    },
     "/batches": {
       "post": {
         "tags": ["admin"],
