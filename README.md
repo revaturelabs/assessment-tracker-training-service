@@ -20,9 +20,9 @@
   - Return 201 on success
 - GET /batches/<batch_id>
     - Get Batch with given batch ID
-- GET /batches?trainerId=<trainer_id>&year=<year>
+- GET /trainers/<trainer_id>/batches?year=<year>
     - Get all batches associated with the given trainer for the given year
-- GET /batches?trainerId=<trainer_id>&track=<track>
+- GET /trainers/<trainer_id>/batches?track=<track>
     - Get all batches associated with the given trainer for the given track
 - POST /batches
     - Creates a new batch
@@ -31,8 +31,6 @@
     - Creates a new note
 - GET /notes
     - Get all notes
-- GET /notes?traineeId=<trainee_id>
-    - Get all notes for the given trainee
 - GET /associates/<associate_id>/notes
     - Get all notes for a specific associate
 - GET /associates/<associate_id>/notes?week=<week>

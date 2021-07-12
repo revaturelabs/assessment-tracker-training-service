@@ -1,3 +1,5 @@
+from typing import List
+
 import psycopg2
 
 from daos.note_dao import NoteDao
@@ -41,7 +43,7 @@ class NoteDAOImpl(NoteDao):
             raise ResourceNotFound("No note could be found with the given id")
 
     @staticmethod
-    def get_all_notes(cursor) -> list[Note]:
+    def get_all_notes(cursor) -> List[Note]:
         """Returns all the notes"""
         sql = "select * from notes"
         cursor.execute(sql)

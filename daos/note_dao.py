@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 from models.note import Note
 
@@ -13,7 +14,7 @@ class NoteDao(ABC):
         pass
 
     @abstractmethod
-    def get_all_notes(self, cursor) -> list[Note]:
+    def get_all_notes(self, cursor) -> List[Note]:
         pass
 
     @abstractmethod
