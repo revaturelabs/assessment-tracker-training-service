@@ -1,14 +1,13 @@
 from copy import copy
 from daos.daos_impl.associate_dao_impl import AssociateDAOImpl as a
 from daos.daos_impl.batch_dao_impl import BatchDAOImpl as b
-from datetime import date
 from exceptions.resource_not_found import ResourceNotFound
 from models.associate import Associate
 from models.batch import Batch
 from pytest import raises
 from utils.connection import Connection
 
-conn = Connection.conn
+conn = Connection().conn
 ASSOCIATE = Associate("Testy", "McTesterson", "test@test.test", "")
 BATCH = Batch("Batchy", "Snek", 1625788800, 1631145600)
 
