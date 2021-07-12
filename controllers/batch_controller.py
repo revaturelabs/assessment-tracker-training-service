@@ -33,12 +33,11 @@ def route(app):
         except ResourceNotFound as r:
             return r.message, 404
 
-    @app.get("/batches")
-    def get_all_batches_by_query():
-        trainer_id = request.args.get("trainerId")
+    @app.get("/trainer/<trainer_id>/batches")
+    def get_all_batches_by_query(trainer_id):
         year = request.args.get("year")
         track = request.args.get("track")
-        if trainer_id is not None and year is not None:
+        if year is not None:
             try:
                 batches = BatchServices.get_all_batches_by_year(int(trainer_id), int(year))
             except ValueError:
@@ -46,7 +45,7 @@ def route(app):
             batches_as_json = convert_list_to_json(batches)
             return jsonify(batches_as_json)
 
-        elif trainer_id is not None and track is not None:
+        elif track is not None:
             try:
                 batches = BatchServices.search_for_batch(int(trainer_id), track)
             except ValueError:
@@ -55,7 +54,7 @@ def route(app):
             return jsonify(batches_as_json)
 
         else:
-            return "Please provide trainer_id and either track or year query parameters", 400
+            return "Please provide either track or year query parameters", 400
 
 
 
