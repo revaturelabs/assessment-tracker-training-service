@@ -1,5 +1,5 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",  
   "info": {
     "description": "The Assessment Tracker is an application designed to help track an individual's progress through a batch training. A user can see all the batches organized by year, view a particular week for a batch, create new assessments, and organize assessments into types. Each assessment is assigned a weight to contribute to the final grade, and associates that complete a given assignment are given a grade in the application.",
     "version": "1.0.0",
@@ -35,7 +35,7 @@
           "content": {
             "application/json":{
               "schema": {
-                "$ref": "#"
+                "$ref": "#/components/schemas/createBatch"
               }
             }
           }
@@ -45,7 +45,7 @@
           "201": {
             "description": "OK",
             "schema" : {
-              "$ref": "#"
+              "$ref": "#/components/schemas/createBatch"
             }
           },
           "400": {
@@ -53,6 +53,26 @@
             "schema" : {
               "$ref": "#"
             }
+          }
+        }
+      }
+    }
+  },
+  "components":{
+    "schemas": {
+      "createBatch": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "trainingTrack": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "number"
+          },
+          "endDate": {
+            "type": "number"
           }
         }
       }
