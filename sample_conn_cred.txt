@@ -1,6 +1,18 @@
+; Remember to change the name of this file to conn_cred.ini after adding
+; your connection details!
+
 [postgresql]
 host=
 database=postgres
 user=
 password=
 port=5432
+options=-c search_path=<main_schema>
+
+[postgresql_test]
+host=
+database=postgres
+user=
+password=
+port=5432
+options=-c search_path=<test_schema>
