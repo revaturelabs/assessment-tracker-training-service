@@ -76,7 +76,7 @@ def route(app):
         except ResourceNotFound as r:
             return r.message, 404
 
-    @app.route("associates/register", methods=["POST"])
+    @app.route("/associates/register", methods=["POST"])
     def post_associate_batch():
         """
         Create a new associate-batch join relationship
@@ -88,11 +88,13 @@ def route(app):
         }
         """
         try:
-            body = request.json()
+            body = request.json
             new_registration = AssociateServices.create_assoicate_batch_join(int(body["associateId"]), int(body["batchId"]))
             result = {"result": new_registration}
             return jsonify(result), 201
-        except ValueError:
+        except (ValueError):
             return INVALID_ID_ERROR, 400
+        except (KeyError, TypeError):
+            return "Invalid JSON body", 400
         except ResourceNotFound as r:
             return r.message, 404
