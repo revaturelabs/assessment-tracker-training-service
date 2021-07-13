@@ -32,6 +32,12 @@ class AssociateServices:
                     cursor, batch_id)
 
     @classmethod
+    def get_all_associates(cls):
+        with conn:
+            with conn.cursor() as cursor:
+                return cls.associate_dao.get_all_associates(cursor)
+
+    @classmethod
     def create_associate_in_batch(cls, associate: Associate, batch_id: int):
         with conn:
             with conn.cursor() as cursor:

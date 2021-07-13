@@ -11,6 +11,11 @@ class AssociateDAO(ABC):
 
     @staticmethod
     @abstractmethod
+    def get_all_associates(cursor):
+        pass
+
+    @staticmethod
+    @abstractmethod
     def get_associate_in_batch(cursor, associate_id, batch_id):
         pass
 
