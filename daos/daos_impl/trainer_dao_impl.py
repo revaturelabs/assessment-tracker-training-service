@@ -21,6 +21,7 @@ class TrainerDAOImpl(TrainerDAO):
                 email=record[1],
                 first_name=record[2],
                 last_name=record[3],
+                admin=record[4]
             )
         else:
             raise ResourceNotFound(
@@ -53,7 +54,8 @@ class TrainerDAOImpl(TrainerDAO):
             return Trainer(id=record[0],
                            first_name=record[2],
                            last_name=record[3],
-                           email=record[1])
+                           email=record[1],
+                           admin=record[4])
         else:
             raise ResourceNotFound("No trainer exists with those credentials")
 
@@ -81,11 +83,11 @@ class TrainerDAOImpl(TrainerDAO):
             insert into
                 trainers
             values
-                (default, %s, %s, %s)
+                (default, %s, %s, %s, %s)
             returning
                 id"""
         cursor.execute(sql,
-                       [trainer.email, trainer.first_name, trainer.last_name])
+                       [trainer.email, trainer.first_name, trainer.last_name, trainer.admin])
         trainer.id = cursor.fetchone()[0]
         return trainer
 
