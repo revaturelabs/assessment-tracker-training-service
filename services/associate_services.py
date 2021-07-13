@@ -38,6 +38,21 @@ class AssociateServices:
                 return cls.associate_dao.get_all_associates(cursor)
 
     @classmethod
+    def create_new_associate(cls, associate: Associate):
+        with conn:
+            with conn.cursor() as cursor:
+                return cls.associate_dao.create_associate(cursor, associate)
+
+    @classmethod
+    def create_assoicate_batch_join(cls, associate_id: int, batch_id: int):
+        with conn:
+            with conn.cursor() as cursor:
+                associate = cls.associate_dao.get_associate_by_id(cursor, associate_id)
+                batch = cls.batch_dao.get_batch_by_id(cursor, batch_id)
+                return cls.associate_dao.create_associate_batch(cursor, associate, batch)
+
+    """
+    @classmethod
     def create_associate_in_batch(cls, associate: Associate, batch_id: int):
         with conn:
             with conn.cursor() as cursor:
@@ -47,3 +62,4 @@ class AssociateServices:
                 cls.associate_dao.create_associate_batch(
                     cursor, associate, batch)
                 return associate
+    """
