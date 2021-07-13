@@ -1,6 +1,8 @@
 # assessment-tracker-training-service
 
 ### Routes
+- GET /associates
+  - Gets all associates in the database
 - GET /associates/<associate_id>
   - Get associate with given ID
   - Returns 200 on success, 404 on invalid ID

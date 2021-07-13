@@ -30,7 +30,7 @@ class AssociateDAOImpl(AssociateDAO):
         records = cursor.fetchall()
         all_associates = []
         for record in records:
-            all_associates.append(Associate(*record))
+            all_associates.append(Associate(id=record[0], email=record[1], first_name=record[2], last_name=record[3], training_status=""))
         return all_associates
 
     @staticmethod
