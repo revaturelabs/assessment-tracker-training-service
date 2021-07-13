@@ -6,7 +6,6 @@ drop table if exists notes;
 drop table if exists associates;
 drop table if exists batches;
 drop table if exists trainers;
-drop table if exists associates;
 
 
 create table if not exists trainers (
