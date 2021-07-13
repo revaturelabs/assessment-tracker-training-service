@@ -54,8 +54,8 @@ def route(app):
             return r.message, 404
 
     @app.route("/associates", methods=["POST"])
-    def post_associate_in_batch():
-        """Create a new associate in a specified branch.
+    def post_associate():
+        """Create a new associate.
 
         Accepts a JSON input:
         {
@@ -63,17 +63,36 @@ def route(app):
             "lastName": str,
             "email": str,
             "trainingStatus": str,
-            "batchId": int
         }
         """
         try:
             body = json.loads(request.data.decode("utf-8"))
             associate = Associate(body["firstName"], body["lastName"],
                                   body["email"], body["trainingStatus"])
-            associate.id = AssociateServices.create_associate_in_batch(
-                associate, body["batchId"]).id
+            associate = AssociateServices.create_new_associate(associate)
             return jsonify(associate.json()), 201
         except ValueError:
             return INVALID_ID_ERROR, 400  # Bad Request
+        except ResourceNotFound as r:
+            return r.message, 404
+
+    @app.route("associates/register", methods=["POST"])
+    def post_associate_batch():
+        """
+        Create a new associate-batch join relationship
+
+        Accepts a JSON input:
+        {
+            "associateId": int,
+            "batchId": int
+        }
+        """
+        try:
+            body = request.json()
+            new_registration = AssociateServices.create_assoicate_batch_join(int(body["associateId"]), int(body["batchId"]))
+            result = {"result": new_registration}
+            return jsonify(result), 201
+        except ValueError:
+            return INVALID_ID_ERROR, 400
         except ResourceNotFound as r:
             return r.message, 404
