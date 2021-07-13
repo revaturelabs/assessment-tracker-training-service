@@ -360,6 +360,13 @@
 
 
         }
+      },
+      "loginTrainer": {
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
       }
     }
   }
