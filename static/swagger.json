@@ -25,6 +25,169 @@
     }
   ],
   "paths": {
+    "/notes": {
+      "get": {
+        "tags": ["instructor"],
+        "summary": "Gets all notes and returns a Note array",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/note"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request!"
+          }
+        }
+      },
+      "post": {
+        "tags": ["instructor"],
+        "summary": "Create a new Note",
+        "requestBody":{
+          "description": "Creates a Note object using inputs from JSON",
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/note"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201":{
+            "description": "Note successfully created!",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "400":{
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+"/notes/{note_id}": {
+      "parameters": [
+        {
+          "name": "note_id",
+          "in": "path",
+          "required": true,
+          "description": "Note Id",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["instructor"],
+        "summary": "Takes in an id for a Note record and returns a Note object",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request!"
+          }
+        }
+      },
+      "put":{
+        "tags":["instructor"],
+        "summary":"Updates the note indicated by the Id",
+        "requestBody":{
+          "description": "Updates a Note object using inputs from JSON",
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/note"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201":{
+            "description": "Note successfully updated!",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          },
+          "400":{
+            "description": "Bad request"
+          }
+        }
+      },
+      "delete":{
+        "tags": ["instructor"],
+        "summary": "Removes a Note from the database",
+        "responses":{
+        "200":{
+          "description":"Note successfully deleted!"
+        },
+        "400":{
+          "description":"Bad request."
+        }
+      }
+      }
+    },
+"/associates/{associate_id}/notes": {
+      "parameters": [
+        {
+          "name": "associate_id",
+          "in": "path",
+          "required": true,
+          "description": "Associate Id",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["instructor"],
+        "summary": "Takes in an id for an Associate and returns an Array of Note objects connected to them",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/note"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request!"
+          }
+        }
+      }
+    },
     "/associates/{associate_id}/batches/{batch_id}": {
       "get": {
         "tags": ["instructor"],
@@ -572,6 +735,7 @@
         "summary": "returns the years a trainer was active",
         "responses": {
           "200": {
+            "description": "Returns the years a trainer was active based on the Id provided",
             "content": {
               "application/json": {
                 "type": "array",
@@ -675,6 +839,25 @@
       "loginTrainer": {
         "properties": {
           "email": {
+            "type": "string"
+          }
+        }
+      },
+      "note":{
+        "properties": {
+          "id":{
+            "type": "number"
+          },
+          "batchId":{
+            "type": "number"
+          },
+          "associateId":{
+            "type": "number"
+          },
+          "weekNumber":{
+            "type": "number"
+          },
+          "cont":{
             "type": "string"
           }
         }
