@@ -362,7 +362,7 @@
         "tags": ["admin"],
         "summary": "Create a new Batch",
         "requestBody": {
-          "description": "Creates a new Batch obj",
+          "description": "Creates a Batch object using inputs from JSON",
           "required": true,
           "content": {
             "application/json": {
@@ -372,19 +372,257 @@
             }
           }
         },
-        "produces": ["application/json"],
         "responses": {
           "201": {
+            "description": "Batch successfully created!"
+          },
+          "400": {
+            "description": "Bad request!"
+          }
+        }
+      }
+    },
+    "/batches/{batch_id}": {
+      "parameters": [
+        {
+          "name": "batch_id",
+          "in": "path",
+          "required": true,
+          "description": "Batch Id",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["admin"],
+        "summary": "Takes in an id for a batch record and returns a Batch objec",
+        "responses": {
+          "200": {
             "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/createBatch"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/batchResponseBody"
+                }
+              }
             }
           },
           "400": {
-            "description": "Bad",
-            "schema": {
-              "$ref": "#"
+            "description": "Bad request!"
+          }
+        }
+      }
+    },
+    "/trainers/{trainer_id}/batches?year=2021": {
+      "parameters": [
+        {
+          "name": "trainer_id",
+          "in": "path",
+          "required": true,
+          "description": "Trainer Id",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "year",
+          "in": "query",
+          "required": true,
+          "description": "Year",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["admin"],
+        "summary": "Get a list of batches associated with the given trainer for the given year",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/batchResponseBody"
+                  }
+                }
+              }
             }
+          },
+          "400": {
+            "description": "Bad request!"
+          }
+        }
+      }
+    },
+    "/trainers/{trainer_id}/batches?track=trackName": {
+      "parameters": [
+        {
+          "name": "trainer_id",
+          "in": "path",
+          "required": true,
+          "description": "Trainer Id",
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "track",
+          "in": "query",
+          "required": true,
+          "description": "Training Track",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["admin"],
+        "summary": "Get a list of batches associated with the given trainer for the given track",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/batchResponseBody"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request!"
+          }
+        }
+      }
+    },
+
+    "/trainers": {
+      "post": {
+        "tags": ["instructor"],
+        "summary": "Login an instructor",
+        "requestBody": {
+          "description": "Login an instructor using their email",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginTrainer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Trainer successfully logs in"
+          },
+          "404": {
+            "description": "Trainer unsuccessfully logs in"
+          }
+        }
+      }
+    },
+    "/trainers/{trainer_id}": {
+      "parameters": [
+        {
+          "name": "trainer_id",
+          "in": "path",
+          "required": true,
+          "description": "Trainer Id",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["admin"],
+        "summary": "Takes in an id and returns a Trainer",
+        "responses": {
+          "200": {
+            "description": "Trainer found successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getTrainerResponseBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Trainer not found"
+          },
+          "400": {
+            "description": "Bad request!"
+          }
+        }
+      }
+    },
+    "/batches/{batch_id}/trainers": {
+      "parameters": [
+        {
+          "name": "batch_id",
+          "in": "path",
+          "required": true,
+          "description": "Batch Id",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["admin"],
+        "summary": "Takes in an id for a batch record and returns a Trainer or trainers",
+        "responses": {
+          "200": {
+            "description": "Successfully found Trainer(s)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/getTrainerResponseBody"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/years?trainerId=1": {
+      "parameters": [
+        {
+          "name": "trainerId",
+          "in": "path",
+          "required": true,
+          "description": "Trainer Id",
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "tags": ["admin"],
+        "summary": "returns the years a trainer was active",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request!"
           }
         }
       }
@@ -405,6 +643,53 @@
           },
           "endDate": {
             "type": "number"
+          }
+        }
+      },
+      "batchResponseBody": {
+        "properties": {
+          "currentWeek": {
+            "type": "number"
+          },
+          "endDate": {
+            "type": "number"
+          },
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "number"
+          },
+          "totalWeeks": {
+            "type": "number"
+          },
+          "trainingTrack": {
+            "type": "string"
+          }
+        }
+      },
+      "getTrainerResponseBody": {
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "admin": {
+            "type": "boolean"
           }
         }
       }
