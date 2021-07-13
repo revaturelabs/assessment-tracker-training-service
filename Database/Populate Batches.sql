@@ -1,4 +1,5 @@
-  
+begin;
+
 /*Default Data for Associates*/
 
 insert into associates (email, first_name, last_name) values ('zvv@revature.com', 'Zachary', 'Vander Velden');
@@ -70,3 +71,5 @@ insert into trainer_batches (trainer_id, batch_id, start_date, end_date, "role")
 insert into trainer_batches (trainer_id, batch_id, start_date, end_date, "role") values (1, 4, extract(epoch from timestamp '2020-02-20'), extract(epoch from timestamp '2020-4-13'), 'Lead');
 insert into trainer_batches (trainer_id, batch_id, start_date, end_date, "role") values (1, 5, extract(epoch from timestamp '2020-02-20'), extract(epoch from timestamp '2020-4-19'), 'Lead');
 insert into trainer_batches (trainer_id, batch_id, start_date, end_date, "role") values (1, 6, extract(epoch from timestamp '2020-03-20'), extract(epoch from timestamp '2020-9-20'), 'Lead');
+
+commit;

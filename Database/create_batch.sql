@@ -1,8 +1,11 @@
+begin;
+
 drop table if exists associate_batches;
 drop table if exists trainer_batches;
 drop table if exists notes;
 drop table if exists associates;
 drop table if exists batches;
+drop table if exists trainers;
 
 
 create table if not exists trainers (
@@ -10,7 +13,7 @@ id serial primary key,
 email varchar(50) not null,
 first_name varchar(50) not null,
 last_name varchar(50) not null,
-admin bool not null
+admin bool default false
 );
 
 create table if not exists batches(
@@ -61,4 +64,4 @@ constraint fk_notes_batches foreign key(batch_id) references batches(id),
 constraint fk_notes_associates foreign key(associate_id) references associates(id)
 );
 
-
+commit;
