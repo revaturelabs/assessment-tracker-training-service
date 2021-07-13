@@ -21,6 +21,15 @@ def test_get_associate_by_id():
             assert result.first_name == retrieve.first_name
         conn.rollback()
 
+def test_get_all_associates():
+    with conn:
+        with conn.cursor() as cursor:
+            associate = copy(ASSOCIATE)
+            a.create_associate(cursor, associate)
+            results = a.get_all_associates(cursor)
+            assert len(results) >= 1
+        conn.rollback()
+
 
 def test_get_associate_by_id_fail():
     with conn:

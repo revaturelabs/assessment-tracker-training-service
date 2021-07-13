@@ -24,6 +24,16 @@ class AssociateDAOImpl(AssociateDAO):
             raise ResourceNotFound("No associate found with that id")
 
     @staticmethod
+    def get_all_associates(cursor):
+        sql = "select * from associates"
+        cursor.execute(sql)
+        records = cursor.fetchall()
+        all_associates = []
+        for record in records:
+            all_associates.append(Associate(*record))
+        return all_associates
+
+    @staticmethod
     def get_associate_in_batch(cursor, associate_id, batch_id):
         """Get an  Associate in a batch by  their ID and a batch ID"""
         sql = "select a.id, a.first_name, a.last_name, a.email, ab.training_status " \
