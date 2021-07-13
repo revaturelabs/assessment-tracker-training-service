@@ -17,16 +17,18 @@
   "tags": [
     {
       "name": "admin",
-      "description": ""
+      "description": "Administrators manage other users. They can create associates, trainers, and batches."
     },
     {
       "name": "instructor",
-      "description": ""
+      "description": "Instructors run batches. They must be able to access their batch information."
     }
   ],
   "paths": {
     "/associates/{associate_id}/batches/{batch_id}": {
       "get": {
+        "tags": ["instructor"],
+        "summary": "Get an associate by associate and batch id.",
         "description": "Get a specific Associate in the batch by their ID and a batch ID.",
         "parameters": [
           {
@@ -52,28 +54,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Valid query.",
+            "description": "A valid query will return a JSON object representing the associate.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "firstName": {
-                      "type": "string"
-                    },
-                    "lastName": {
-                      "type": "string"
-                    },
-                    "trainingStatus": {
-                      "type": "string"
-                    },
-                    "id": {
-                      "type": "integer"
-                    },
-                    "email": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/associate"
                 },
                 "examples": {
                   "Receive associate": {
@@ -90,7 +75,7 @@
             }
           },
           "404": {
-            "description": "Invalid query.",
+            "description": "If the id can't be found, return a 404 error.",
             "content": {
               "text/html; charset=utf-8": {
                 "schema": {
@@ -103,108 +88,102 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/associates/1/batches/potato": {
-      "get": {
-        "description": "Auto generated using Swagger Inspector",
-        "responses": {
+          },
           "400": {
-            "description": "Auto generated using Swagger Inspector",
+            "description": "If the inputs are in an unexpected type, return a 400 error.",
             "content": {
               "text/html; charset=utf-8": {
                 "schema": {
                   "type": "string"
-                },
-                "examples": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/associates/potato": {
-      "get": {
-        "description": "Auto generated using Swagger Inspector",
-        "responses": {
-          "400": {
-            "description": "Auto generated using Swagger Inspector",
-            "content": {
-              "text/html; charset=utf-8": {
-                "schema": {
-                  "type": "string"
-                },
-                "examples": {}
-              }
-            }
-          }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:5000"
-          }
-        ]
-      },
-      "servers": [
-        {
-          "url": "http://localhost:5000"
-        }
-      ]
-    },
-    "/associates/1": {
-      "get": {
-        "description": "Auto generated using Swagger Inspector",
-        "responses": {
-          "200": {
-            "description": "Auto generated using Swagger Inspector",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "firstName": {
-                      "type": "string"
-                    },
-                    "lastName": {
-                      "type": "string"
-                    },
-                    "trainingStatus": {
-                      "type": "string"
-                    },
-                    "id": {
-                      "type": "integer"
-                    },
-                    "email": {
-                      "type": "string"
-                    }
-                  }
                 },
                 "examples": {
-                  "0": {
-                    "value": "{\n  \"email\": \"zvv@revature.com\", \n  \"firstName\": \"Zachary\", \n  \"id\": 1, \n  \"lastName\": \"Vander Velden\", \n  \"trainingStatus\": \"\"\n}\n"
+                  "invalid input": {
+                    "value": "Not a valid ID or No such batch exist with this ID"
                   }
                 }
               }
             }
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:5000"
-          }
-        ]
-      },
-      "servers": [
-        {
-          "url": "http://localhost:5000"
         }
-      ]
+      }
+    },
+    "/associates/{associate_id}": {
+      "get": {
+        "tags": ["instructor"],
+        "summary": "Get a specific Associate by their ID",
+        "description": "Get a specific Associate by their ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "associate_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "The associate's id number."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful query returns an associate object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/associate"
+                },
+                "examples": {
+                  "recieve associate": {
+                    "value": {
+                      "email": "zvv@revature.com",
+                      "firstName": "Zachary",
+                      "id": 1,
+                      "lastName": "Vander Velden",
+                      "trainingStatus": "Passed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "If the id can't be found, return a 404 error.",
+            "content": {
+              "text/html; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "Id not found": {
+                    "value": "No associate could be found with that id and/or batch"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the inputs are in an unexpected type, return a 400 error.",
+            "content": {
+              "text/html; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "invalid input": {
+                    "value": "Not a valid ID or No such batch exist with this ID"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/associates": {
       "post": {
-        "description": "Auto generated using Swagger Inspector",
+        "tags": ["instructor"],
+        "summary": "Create a new associate in a specified branch.",
+        "description": "Create a new associate in a specified branch.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -229,11 +208,14 @@
                 }
               },
               "examples": {
-                "0": {
-                  "value": "{\n    \"firstName\": \"Testy\",\n    \"lastName\": \"McTesterson\",\n    \"email\": \"authentic@test.email\",\n    \"trainingStatus\": \"Enthusiastic\",\n    \"batchId\": 0\n}"
-                },
                 "1": {
-                  "value": "{\n    \"firstName\": \"Testy\",\n    \"lastName\": \"McTesterson\",\n    \"email\": \"authentic@test.email\",\n    \"trainingStatus\": \"Enthusiastic\",\n    \"batchId\": 1\n}"
+                  "value": {
+                    "firstName": "Testy",
+                    "lastName": "McTesterson",
+                    "email": "authentic@test.email",
+                    "trainingStatus": "Enthusiastic",
+                    "batchId": 1
+                  }
                 }
               }
             }
@@ -241,121 +223,100 @@
         },
         "responses": {
           "201": {
-            "description": "Auto generated using Swagger Inspector",
+            "description": "On success, an associate object will be returned with their associate id.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "firstName": {
-                      "type": "string"
-                    },
-                    "lastName": {
-                      "type": "string"
-                    },
-                    "trainingStatus": {
-                      "type": "string"
-                    },
-                    "id": {
-                      "type": "integer"
-                    },
-                    "email": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/associate"
                 },
                 "examples": {
                   "0": {
-                    "value": "{\n  \"email\": \"authentic@test.email\", \n  \"firstName\": \"Testy\", \n  \"id\": 18, \n  \"lastName\": \"McTesterson\", \n  \"trainingStatus\": \"Enthusiastic\"\n}\n"
+                    "value": {
+                      "email": "authentic@test.email",
+                      "firstName": "Testy",
+                      "id": 18,
+                      "lastName": "McTesterson",
+                      "trainingStatus": "Enthusiastic"
+                    }
                   }
                 }
               }
             }
           },
           "404": {
-            "description": "Auto generated using Swagger Inspector",
+            "description": "If the id can't be found, return a 404 error.",
             "content": {
               "text/html; charset=utf-8": {
                 "schema": {
                   "type": "string"
-                },
-                "examples": {}
-              }
-            }
-          }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:5000"
-          }
-        ]
-      },
-      "servers": [
-        {
-          "url": "http://localhost:5000"
-        }
-      ]
-    },
-    "/associates/0": {
-      "get": {
-        "description": "Auto generated using Swagger Inspector",
-        "responses": {
-          "404": {
-            "description": "Auto generated using Swagger Inspector",
-            "content": {
-              "text/html; charset=utf-8": {
-                "schema": {
-                  "type": "string"
-                },
-                "examples": {}
-              }
-            }
-          }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:5000"
-          }
-        ]
-      },
-      "servers": [
-        {
-          "url": "http://localhost:5000"
-        }
-      ]
-    },
-    "/batches/1/associates": {
-      "get": {
-        "description": "Auto generated using Swagger Inspector",
-        "responses": {
-          "200": {
-            "description": "Auto generated using Swagger Inspector",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {}
                 },
                 "examples": {
-                  "0": {
-                    "value": "[\n  {\n    \"email\": \"zvv@revature.com\", \n    \"firstName\": \"Zachary\", \n    \"id\": 1, \n    \"lastName\": \"Vander Velden\", \n    \"trainingStatus\": \"Passed\"\n  }, \n  {\n    \"email\": \"lh@revature.com\", \n    \"firstName\": \"Lamar\", \n    \"id\": 2, \n    \"lastName\": \"Hinchen\", \n    \"trainingStatus\": \"Passed\"\n  }, \n  {\n    \"email\": \"wr@revature.com\", \n    \"firstName\": \"Walter\", \n    \"id\": 15, \n    \"lastName\": \"Rite\", \n    \"trainingStatus\": \"Enrolled\"\n  }\n]\n"
+                  "Id not found": {
+                    "value": "No associate could be found with that id and/or batch"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "If the inputs are in an unexpected type, return a 400 error.",
+            "content": {
+              "text/html; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "invalid input": {
+                    "value": "Not a valid ID or No such batch exist with this ID"
                   }
                 }
               }
             }
           }
-        },
-        "servers": [
-          {
-            "url": "http://localhost:5000"
-          }
-        ]
-      },
-      "servers": [
-        {
-          "url": "http://localhost:5000"
         }
-      ]
+      }
+    },
+    "/batches/{batch_id}/associates": {
+      "get": {
+        "tags": ["instructor"],
+        "summary": "Get all Associates in a batch by the batch ID",
+        "description": "Get all Associates in a batch by the batch ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "batch_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "The batch's id number."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful query returns an associate object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/associate"
+                },
+                "examples": {
+                  "recieve associate": {
+                    "value": {
+                      "email": "zvv@revature.com",
+                      "firstName": "Zachary",
+                      "id": 1,
+                      "lastName": "Vander Velden",
+                      "trainingStatus": "Passed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "/batches": {
       "post": {
@@ -502,7 +463,6 @@
         }
       }
     },
-
     "/trainers": {
       "post": {
         "tags": ["instructor"],
@@ -513,7 +473,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/loginTrainer"
+                "type": "string"
               }
             }
           }
@@ -690,6 +650,25 @@
           },
           "admin": {
             "type": "boolean"
+          }
+        }
+      },
+      "associate": {
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "trainingStatus": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "email": {
+            "type": "string"
           }
         }
       }
