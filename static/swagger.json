@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.0",  
+  "openapi": "3.0.0",
   "info": {
     "description": "The Assessment Tracker is an application designed to help track an individual's progress through a batch training. A user can see all the batches organized by year, view a particular week for a batch, create new assessments, and organize assessments into types. Each assessment is assigned a weight to contribute to the final grade, and associates that complete a given assignment are given a grade in the application.",
     "version": "1.0.0",
@@ -9,9 +9,9 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "servers":[
+  "servers": [
     {
-      "url": "/"
+      "url": "http://localhost:5000"
     }
   ],
   "tags": [
@@ -25,157 +25,337 @@
     }
   ],
   "paths": {
-    "/associates/{associate_id}": {
-      "post": {
-        "tags": ["instructor"],
-        "summary": "Get a specific Associate by their ID",
-        "requestBody": {
-          "description": "Get a specific Associate by their ID",
-          "required": true,
-          "content": {
-            "application/json":{
-              "schema": {
-                "$ref": "#"
-              }
-            }
-          }
-        },
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema" : {
-              "$ref": "#"
-            }
-          },
-          "400": {
-            "description": "Bad",
-            "schema" : {
-              "$ref": "#"
-            }
-          },
-          "404": {
-            "description": "Bad",
-            "schema" : {
-              "$ref": "#"
-            }
-          }
-        }
-      }
-    },
     "/associates/{associate_id}/batches/{batch_id}": {
-      "post": {
-        "tags": ["instructor"],
-        "summary": "Get a specific Associate by their ID",
-        "requestBody": {
-          "description": "Get a specific Associate by their ID",
-          "required": true,
-          "content": {
-            "application/json":{
-              "schema": {
-                "$ref": "#"
-              }
-            }
+      "get": {
+        "description": "Get a specific Associate in the batch by their ID and a batch ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "associate_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "The associate's id number."
+          },
+          {
+            "in": "path",
+            "name": "batch_id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "The batch's id number."
           }
-        },
-        "produces": ["application/json"],
+        ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema" : {
-              "$ref": "#"
-            }
-          },
-          "400": {
-            "description": "Bad",
-            "schema" : {
-              "$ref": "#"
+            "description": "Valid query.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "trainingStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "Receive associate": {
+                    "value": {
+                      "email": "zvv@revature.com",
+                      "firstName": "Zachary",
+                      "id": 1,
+                      "lastName": "Vander Velden",
+                      "trainingStatus": "Passed"
+                    }
+                  }
+                }
+              }
             }
           },
           "404": {
-            "description": "Bad",
-            "schema" : {
-              "$ref": "#"
+            "description": "Invalid query.",
+            "content": {
+              "text/html; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "Id not found": {
+                    "value": "No associate could be found with that id and/or batch"
+                  }
+                }
+              }
             }
           }
         }
       }
     },
-    "/batches/{batch_id}/associates/{associate_id}": {
-      "post": {
-        "tags": ["instructor"],
-        "summary": "Get a specific Associate by their ID",
-        "requestBody": {
-          "description": "Get a specific Associate by their ID",
-          "required": true,
-          "content": {
-            "application/json":{
-              "schema": {
-                "$ref": "#"
-              }
-            }
-          }
-        },
-        "produces": ["application/json"],
+    "/associates/1/batches/potato": {
+      "get": {
+        "description": "Auto generated using Swagger Inspector",
         "responses": {
-          "200": {
-            "description": "OK",
-            "schema" : {
-              "$ref": "#"
-            }
-          },
           "400": {
-            "description": "Bad",
-            "schema" : {
-              "$ref": "#"
-            }
-          },
-          "404": {
-            "description": "Bad",
-            "schema" : {
-              "$ref": "#"
+            "description": "Auto generated using Swagger Inspector",
+            "content": {
+              "text/html; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {}
+              }
             }
           }
         }
       }
+    },
+    "/associates/potato": {
+      "get": {
+        "description": "Auto generated using Swagger Inspector",
+        "responses": {
+          "400": {
+            "description": "Auto generated using Swagger Inspector",
+            "content": {
+              "text/html; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {}
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:5000"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://localhost:5000"
+        }
+      ]
+    },
+    "/associates/1": {
+      "get": {
+        "description": "Auto generated using Swagger Inspector",
+        "responses": {
+          "200": {
+            "description": "Auto generated using Swagger Inspector",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "trainingStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "0": {
+                    "value": "{\n  \"email\": \"zvv@revature.com\", \n  \"firstName\": \"Zachary\", \n  \"id\": 1, \n  \"lastName\": \"Vander Velden\", \n  \"trainingStatus\": \"\"\n}\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:5000"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://localhost:5000"
+        }
+      ]
     },
     "/associates": {
       "post": {
-        "tags": ["instructor"],
-        "summary": "Create a new associate in a specified branch.",
+        "description": "Auto generated using Swagger Inspector",
         "requestBody": {
-          "description": "Get a specific Associate by their ID",
-          "required": true,
           "content": {
-            "application/json":{
+            "application/json": {
               "schema": {
-                "$ref": "#"
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "trainingStatus": {
+                    "type": "string"
+                  },
+                  "batchId": {
+                    "type": "integer"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "0": {
+                  "value": "{\n    \"firstName\": \"Testy\",\n    \"lastName\": \"McTesterson\",\n    \"email\": \"authentic@test.email\",\n    \"trainingStatus\": \"Enthusiastic\",\n    \"batchId\": 0\n}"
+                },
+                "1": {
+                  "value": "{\n    \"firstName\": \"Testy\",\n    \"lastName\": \"McTesterson\",\n    \"email\": \"authentic@test.email\",\n    \"trainingStatus\": \"Enthusiastic\",\n    \"batchId\": 1\n}"
+                }
               }
             }
           }
         },
-        "produces": ["application/json"],
         "responses": {
-          "200": {
-            "description": "OK",
-            "schema" : {
-              "$ref": "#"
-            }
-          },
-          "400": {
-            "description": "Bad",
-            "schema" : {
-              "$ref": "#"
+          "201": {
+            "description": "Auto generated using Swagger Inspector",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "trainingStatus": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "0": {
+                    "value": "{\n  \"email\": \"authentic@test.email\", \n  \"firstName\": \"Testy\", \n  \"id\": 18, \n  \"lastName\": \"McTesterson\", \n  \"trainingStatus\": \"Enthusiastic\"\n}\n"
+                  }
+                }
+              }
             }
           },
           "404": {
-            "description": "Bad",
-            "schema" : {
-              "$ref": "#"
+            "description": "Auto generated using Swagger Inspector",
+            "content": {
+              "text/html; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {}
+              }
             }
           }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:5000"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://localhost:5000"
         }
-      }
+      ]
+    },
+    "/associates/0": {
+      "get": {
+        "description": "Auto generated using Swagger Inspector",
+        "responses": {
+          "404": {
+            "description": "Auto generated using Swagger Inspector",
+            "content": {
+              "text/html; charset=utf-8": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {}
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:5000"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://localhost:5000"
+        }
+      ]
+    },
+    "/batches/1/associates": {
+      "get": {
+        "description": "Auto generated using Swagger Inspector",
+        "responses": {
+          "200": {
+            "description": "Auto generated using Swagger Inspector",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {
+                  "0": {
+                    "value": "[\n  {\n    \"email\": \"zvv@revature.com\", \n    \"firstName\": \"Zachary\", \n    \"id\": 1, \n    \"lastName\": \"Vander Velden\", \n    \"trainingStatus\": \"Passed\"\n  }, \n  {\n    \"email\": \"lh@revature.com\", \n    \"firstName\": \"Lamar\", \n    \"id\": 2, \n    \"lastName\": \"Hinchen\", \n    \"trainingStatus\": \"Passed\"\n  }, \n  {\n    \"email\": \"wr@revature.com\", \n    \"firstName\": \"Walter\", \n    \"id\": 15, \n    \"lastName\": \"Rite\", \n    \"trainingStatus\": \"Enrolled\"\n  }\n]\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:5000"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://localhost:5000"
+        }
+      ]
     },
     "/batches": {
       "post": {
@@ -185,7 +365,7 @@
           "description": "Creates a new Batch obj",
           "required": true,
           "content": {
-            "application/json":{
+            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/createBatch"
               }
@@ -196,13 +376,13 @@
         "responses": {
           "201": {
             "description": "OK",
-            "schema" : {
+            "schema": {
               "$ref": "#/components/schemas/createBatch"
             }
           },
           "400": {
             "description": "Bad",
-            "schema" : {
+            "schema": {
               "$ref": "#"
             }
           }
@@ -210,7 +390,7 @@
       }
     }
   },
-  "components":{
+  "components": {
     "schemas": {
       "createBatch": {
         "properties": {
