@@ -17,9 +17,16 @@
           "lastName": str,
           "email": str,
           "trainingStatus": str,
-          "batchId": int
       }
   - Return 201 on success
+    
+-POST /associates/register
+  -Creates a new associate_batch relationship
+  - Accepts a JSON input:
+    {
+        "associateId": int,
+        "batchId": int
+    }
 - GET /batches/<batch_id>
     - Get Batch with given batch ID
 - GET /trainers/<trainer_id>/batches?year=<year>
