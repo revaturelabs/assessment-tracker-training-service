@@ -21,7 +21,7 @@
   - Return 201 on success
     
 - POST /associates/register
-  -Creates a new associate_batch relationship
+  - Creates a new associate_batch relationship
   - Accepts a JSON input:
     {
         "associateId": int,
