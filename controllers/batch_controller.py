@@ -17,7 +17,7 @@ def route(app):
             body = request.json
             batch = Batch(body["name"], body["trainingTrack"], body["startDate"], body["endDate"])
             result = BatchServices.create_batch(batch)
-            return f"Batch [{body['name']}] successfully created with an id of {result.id}", 201
+            return jsonify(f"{result.id}"), 201
         except psycopg2.errors.InvalidDatetimeFormat as e:
             return str(e), 400  # Bad Request
         except ValueError as e:
