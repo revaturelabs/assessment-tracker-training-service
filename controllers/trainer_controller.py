@@ -1,3 +1,4 @@
+from models.trainer import Trainer
 from flask import request, jsonify
 
 from exceptions.resource_not_found import ResourceNotFound
@@ -10,7 +11,8 @@ INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 
 def route(app):
-    @app.route("/trainers", methods=["POST"])
+
+    @app.route("/login", methods=["POST"])
     def login():
         try:
             email = request.json["email"]
@@ -21,7 +23,8 @@ def route(app):
     @app.route("/trainers/<trainer_id>", methods=["GET"])
     def get_trainer_by_id(trainer_id):
         try:
-            return jsonify(TrainerService.get_trainer_by_id(int(trainer_id)).json())
+            return jsonify(
+                TrainerService.get_trainer_by_id(int(trainer_id)).json())
         except ValueError:
             return INVALID_ID_ERROR, 400  # Bad Request
         except ResourceNotFound as r:
@@ -38,13 +41,14 @@ def route(app):
         trainers_as_json = convert_list_to_json(trainers)
         return jsonify(trainers_as_json)
 
-    #/years?trainer_id=<trainer_id>
+    # /years?trainer_id=<trainer_id>
     @app.route("/years", methods=["GET"])
     def get_years_for_trainer():
         trainer_id = request.args.get("trainerId")
         if trainer_id is not None:
             try:
-                return jsonify(TrainerService.get_years_for_trainer(int(trainer_id)))
+                return jsonify(
+                    TrainerService.get_years_for_trainer(int(trainer_id)))
             except ValueError:
                 return INVALID_ID_ERROR, 400  # Bad Request
         else:
@@ -53,6 +57,10 @@ def route(app):
     @app.route("/trainers", methods=["POST"])
     def post_trainer():
         """Create a new trainer.
+<<<<<<< HEAD
+=======
+
+>>>>>>> 76537b104a40736c6e7f4fe0907301f087c4b2d6
         Accepts a JSON input:
         {
             "firstName": str,
@@ -75,6 +83,10 @@ def route(app):
     def post_trainer_batch():
         """
         Create a new trainer-batch join relationship
+<<<<<<< HEAD
+=======
+
+>>>>>>> 76537b104a40736c6e7f4fe0907301f087c4b2d6
         Accepts a JSON input:
         {
             "trainerId": int,
@@ -95,6 +107,7 @@ def route(app):
             return "Invalid JSON body", 400
         except ResourceNotFound as r:
             return r.message, 404
+<<<<<<< HEAD
 
     @app.route("/trainers", methods=["GET"])
     def get_all_trainers():
@@ -102,3 +115,5 @@ def route(app):
             return jsonify(TrainerService.get_all_trainers())
         except ResourceNotFound as r:
             return r.message, 404
+=======
+>>>>>>> 76537b104a40736c6e7f4fe0907301f087c4b2d6

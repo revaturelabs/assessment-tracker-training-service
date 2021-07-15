@@ -11,7 +11,7 @@ INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 def route(app):
 
-    #Get all associates endpoint
+    # Get all associates endpoint
     @app.get("/associates")
     def get_all_associates():
         results = AssociateServices.get_all_associates()
@@ -65,6 +65,7 @@ def route(app):
             "trainingStatus": str,
         }
         """
+        # ! trainingStatus shouldn't actually be assigned until registration.
         try:
             body = json.loads(request.data.decode("utf-8"))
             associate = Associate(body["firstName"], body["lastName"],
@@ -87,9 +88,11 @@ def route(app):
             "batchId": int
         }
         """
+        # ! Currently doesn't accept batch training status as an input.
         try:
             body = request.json
-            new_registration = AssociateServices.create_assoicate_batch_join(int(body["associateId"]), int(body["batchId"]))
+            new_registration = AssociateServices.create_assoicate_batch_join(
+                int(body["associateId"]), int(body["batchId"]))
             result = {"result": new_registration}
             return jsonify(result), 201
         except (ValueError):
