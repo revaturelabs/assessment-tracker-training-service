@@ -12,7 +12,7 @@ INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 def route(app):
 
     #Get all associates endpoint
-    @app.get("/associates")
+    @app.route("/associates", methods=["GET"])
     def get_all_associates():
         results = AssociateServices.get_all_associates()
         return jsonify([result.json() for result in results])

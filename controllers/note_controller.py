@@ -61,7 +61,7 @@ def route(app):
         json_notes = [note.json() for note in notes]
         return jsonify(json_notes), 200
 
-    @app.get("/associates/<associate_id>/notes")
+    @app.route("/associates/<associate_id>/notes", methods=["GET"])
     def get_notes_for_associate(associate_id):
         week = request.args.get("week")
         try:
