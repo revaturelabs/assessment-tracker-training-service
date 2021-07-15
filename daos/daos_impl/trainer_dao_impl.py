@@ -10,7 +10,7 @@ from models.trainer import Trainer
 class TrainerDAOImpl(TrainerDAO):
 
     @staticmethod
-    def get_all_trainers(cursor) -> list[Trainer]:
+    def get_all_trainers(cursor):
         sql = "SELECT * FROM trainers"
         cursor.execute(sql)
         records = cursor.fetchall()
