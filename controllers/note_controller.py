@@ -10,7 +10,7 @@ from services.note_service_impl import NoteServiceImpl
 INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 
-def route(app):
+def route(ans, ins):
     pass
     # note_dao: NoteDao = NoteDAOImpl()
     # note_service: NoteService = NoteServiceImpl(note_dao)

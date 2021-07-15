@@ -9,7 +9,7 @@ from utils.json_tool import convert_list_to_json
 INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 
-def route(app):
+def route(ans, ins):
     pass
     # #Get all associates endpoint
     # @app.route("/associates", methods=["GET"])

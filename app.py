@@ -9,7 +9,12 @@ CORS(app)
 api = Api(app, version='1.0', title='Assessment-Tracker-Python-Endpoints',
           description="The Assessment Tracker is an application designed to help track an individual's progress through a batch training. A user can see all the batches organized by year, view a particular week for a batch, create new assessments, and organize assessments into types. Each assessment is assigned a weight to contribute to the final grade, and associates that complete a given assignment are given a grade in the application.",
           )
-app_controller.route(api)
+
+# Admin Namespace
+ans = api.namespace(name='Admin', path='/', description='Admin related operations')
+# Instructor Namespace
+ins = api.namespace(name='Instructor', path='/', description='Instructor related operations')
+app_controller.route(ans, ins)
 
 if __name__ == '__main__':
     app.run(debug=False)
