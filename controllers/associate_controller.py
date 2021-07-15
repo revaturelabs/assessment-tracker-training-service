@@ -1,6 +1,7 @@
 import json
 from models.associate import Associate
 from flask import request, jsonify
+from flask_restx import Api, Resource
 
 from exceptions.resource_not_found import ResourceNotFound
 from services.associate_services import AssociateServices
@@ -10,24 +11,52 @@ INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 
 def route(app):
+    api = Api(app)
+    instructor = api.namespace(
+        "instructors",
+        description=
+        "Instructors run batches. They must be able to access their batch information."
+    )
+    admin = api.namespace(
+        "admin",
+        description=
+        "Administrators manage other users. They can create associates, trainers, and batches."
+    )
 
-    #Get all associates endpoint
-    @app.route("/associates", methods=["GET"])
-    def get_all_associates():
-        results = AssociateServices.get_all_associates()
-        return jsonify([result.json() for result in results])
+    @admin.route("/associates")
+    class GetAllAssociates(Resource):
 
-    # Get associate by id endpoint
+        @admin.doc("Get all associates.")
+        def get(self):
+            results = AssociateServices.get_all_associates()
+            return jsonify([result.json() for result in results])
+
     @app.route("/associates/<associate_id>", methods=['GET'])
-    def get_associate_id(associate_id):
-        """Get a specific Associate by their ID"""
-        try:
-            batch = AssociateServices.get_associated_by_id(int(associate_id))
-            return jsonify(batch.json()), 200
-        except ValueError:
-            return INVALID_ID_ERROR, 400  # Bad Request
-        except ResourceNotFound as r:
-            return r.message, 404
+    @instructor.route("/associates/<associate_id>")
+    class GetAssociateId(Resource):
+
+        @instructor.doc(summary="Get a specific Associate by their ID",
+                        description="Get a specific Associate by their ID",
+                        parameters=[{
+                            "in": "path",
+                            "name": "associate_id",
+                            "required": True,
+                            "schema": {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            "description": "The associate's id number."
+                        }])
+        def get(self, associate_id):
+            """Get a specific Associate by their ID"""
+            try:
+                batch = AssociateServices.get_associated_by_id(
+                    int(associate_id))
+                return jsonify(batch.json()), 200
+            except ValueError:
+                return INVALID_ID_ERROR, 400  # Bad Request
+            except ResourceNotFound as r:
+                return r.message, 404
 
     @app.route("/associates/<associate_id>/batches/<batch_id>", methods=['GET'])
     def get_associate_in_batch(associate_id, batch_id):
@@ -89,7 +118,8 @@ def route(app):
         """
         try:
             body = request.json
-            new_registration = AssociateServices.create_assoicate_batch_join(int(body["associateId"]), int(body["batchId"]))
+            new_registration = AssociateServices.create_assoicate_batch_join(
+                int(body["associateId"]), int(body["batchId"]))
             result = {"result": new_registration}
             return jsonify(result), 201
         except (ValueError):
