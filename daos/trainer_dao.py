@@ -33,3 +33,8 @@ class TrainerDAO(ABC):
     @abstractmethod
     def create_trainer_batch(cursor, trainer: Trainer, batch: Batch) -> bool:
         pass
+
+    @staticmethod
+    @abstractmethod
+    def get_all_trainers(cursor):
+        pass

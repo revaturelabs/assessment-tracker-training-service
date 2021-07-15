@@ -55,7 +55,7 @@ def test_get_all_batches_by_year():
             trainer.id = t.create_trainer(cursor, trainer).id
             batch = copy(TEST_BATCH)
             batch.id = b.create_batch(cursor, batch).id
-            t.create_trainer_batch(cursor, trainer, batch, "Yes")
+            t.create_trainer_batch(cursor, trainer, batch)
             batches = b.get_all_batches_by_year(cursor, trainer.id, 2021)
             assert len(batches) != 0
         conn.rollback()
@@ -68,7 +68,7 @@ def test_get_all_batches_by_year_fail():
             trainer.id = t.create_trainer(cursor, trainer).id
             batch = copy(TEST_BATCH)
             batch.id = b.create_batch(cursor, batch).id
-            t.create_trainer_batch(cursor, trainer, batch, "Yes")
+            t.create_trainer_batch(cursor, trainer, batch)
             batches = b.get_all_batches_by_year(cursor, trainer.id, 0)
             assert len(batches) == 0
         conn.rollback()
@@ -101,7 +101,7 @@ def test_search():
             trainer.id = t.create_trainer(cursor, trainer).id
             batch = copy(TEST_BATCH)
             batch.id = b.create_batch(cursor, batch).id
-            t.create_trainer_batch(cursor, trainer, batch, "Yes")
+            t.create_trainer_batch(cursor, trainer, batch)
             result = b.search_for_batch(cursor, trainer.id, "Python")
             assert len(result) != 0
         conn.rollback()

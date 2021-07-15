@@ -1,6 +1,6 @@
 import psycopg2
 from flask import jsonify, request
-from flask_restx import Api, Resource, Namespace, fields
+from flask_restx import Resource, fields
 
 from exceptions.resource_not_found import ResourceNotFound
 from models.batch import Batch
@@ -10,27 +10,19 @@ from utils.json_tool import convert_list_to_json
 INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 
-def route(api):
-    admin = Namespace('Admin', description='Admin related operations')
-    api.add_namespace(admin)
-
-    sample_create_batch = api.model('Model',{
-                                        "name": "Areesh",
-                                        "trainingTrack": "AWS/Python",
-                                        "startDate": 1625843430,
-                                        "endDate": 1639008000
-                                    })
-    batch_data = api.model('Model', {
-        "name": fields.String,
-        "trainingTrack": fields.String,
-        "startDate": fields.Integer,
-        "endDate": fields.Integer
+def route(ans, ins):
+    batch_data = ans.model('Schemas', {
+        "name": fields.String(default="Reston-7152021", description='Name of the batch'),
+        "trainingTrack": fields.String(default="Python, Java, Automation", description='Tech Stack for the batch'),
+        "startDate": fields.Integer(default="1625843430", description='Epoch time in seconds'),
+        "endDate": fields.Integer(default="1639008000", description='Epoch time in seconds')
     })
 
-    @api.route('/batches')
-    @api.response(400, 'Bad Request')
+    @ans.route('/batches')
+    @ans.response(201, "<batch_id>")
+    @ans.response(400, 'Bad Request')
     class CreateBatch(Resource):
-        @api.expect(batch_data)
+        @ans.expect(batch_data)
         def post(self):
             """Creates a Batch object using inputs from JSON"""
             try:
@@ -43,12 +35,12 @@ def route(api):
             except ValueError as e:
                 return str(e), 400
 
-    @api.route("/batches/<batch_id>")
-    @api.param('batch_id', 'Batch Unique Id')
-    @api.response(400, 'Bad Request')
-    @api.response(404, 'Resource not Found')
+    @ins.route("/batches/<int:batch_id>")
+    @ins.param('batch_id', 'Batch Unique Id')
+    @ins.response(400, 'Bad Request')
+    @ins.response(404, 'Resource not Found')
     class GetBatchById(Resource):
-        @api.marshal_with(batch_data)
+        @ins.marshal_with(batch_data, mask=None)
         def get(self, batch_id):
             """Takes in an id for a batch record and returns a Batch object"""
             try:
@@ -58,14 +50,14 @@ def route(api):
             except ResourceNotFound as r:
                 return r.message, 404
 
-    @api.route("/trainers/<trainer_id>/batches")
-    @api.param('trainer_id', 'Trainer Unique Id', 'integer')
-    @api.doc(params={
+    @ins.route("/trainers/<trainer_id>/batches")
+    @ins.param('trainer_id', 'Trainer Unique Id', 'integer')
+    @ins.doc(params={
         'year': {'in': 'query', 'description': '2021', 'type': 'integer'},
         'track': {'in': 'query', 'description': 'Python'}
     })
     class GetAllBatchesByQuery(Resource):
-        @api.marshal_with(batch_data, as_list=True)
+        @ins.marshal_with(batch_data, as_list=True, mask=None)
         def get(self, trainer_id):
             """Get all batches associated with the given trainer for the given year or trainingTrack"""
             year = request.args.get("year")

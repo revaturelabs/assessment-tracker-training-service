@@ -10,19 +10,38 @@ from models.trainer import Trainer
 class TrainerDAOImpl(TrainerDAO):
 
     @staticmethod
+    def get_all_trainers(cursor):
+        sql = "SELECT * FROM trainers"
+        cursor.execute(sql)
+        records = cursor.fetchall()
+        trainer_list = []
+        if records:
+            for record in records:
+                trainer_list.append(
+                    Trainer(
+                        id=record[0],
+                        email=record[1],
+                        first_name=record[2],
+                        last_name=record[3],
+                        admin=record[4]
+                    )
+                )
+        if len(trainer_list) == 0:
+            raise ResourceNotFound("No trainers found")
+        return trainer_list
+
+    @staticmethod
     def get_trainer_by_id(cursor, trainer_id):
         sql = "SELECT * FROM trainers WHERE id=%s"
         cursor.execute(sql, [trainer_id])
         records = cursor.fetchall()
         if records:
             record = records[0]
-            return Trainer(
-                id=record[0],
-                email=record[1],
-                first_name=record[2],
-                last_name=record[3],
-                admin=record[4]
-            )
+            return Trainer(id=record[0],
+                           email=record[1],
+                           first_name=record[2],
+                           last_name=record[3],
+                           admin=record[4])
         else:
             raise ResourceNotFound(
                 "No trainer could be found with the given id")
@@ -86,13 +105,14 @@ class TrainerDAOImpl(TrainerDAO):
                 (default, %s, %s, %s, %s)
             returning
                 id"""
-        cursor.execute(sql,
-                       [trainer.email, trainer.first_name, trainer.last_name, trainer.admin])
+        cursor.execute(sql, [
+            trainer.email, trainer.first_name, trainer.last_name, trainer.admin
+        ])
         trainer.id = cursor.fetchone()[0]
         return trainer
 
     @staticmethod
-    def create_trainer_batch(cursor, trainer: Trainer, batch: Batch, role: str):
+    def create_trainer_batch(cursor, trainer: Trainer, batch: Batch):
         """Create a new trainer_batch join"""
         # ! For testing use only
         sql = """\
@@ -100,6 +120,7 @@ class TrainerDAOImpl(TrainerDAO):
                 trainer_batches
             values
                 (%s, %s, %s, %s, %s)"""
-        cursor.execute(
-            sql, [trainer.id, batch.id, batch.start_date, batch.end_date, role])
+        cursor.execute(sql, [
+            trainer.id, batch.id, batch.start_date, batch.end_date, trainer.role
+        ])
         return True

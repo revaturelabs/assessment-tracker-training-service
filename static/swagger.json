@@ -33,8 +33,8 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json":{
-                "schema":{
+              "application/json": {
+                "schema": {
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/note"
@@ -51,35 +51,35 @@
       "post": {
         "tags": ["instructor"],
         "summary": "Create a new Note",
-        "requestBody":{
+        "requestBody": {
           "description": "Creates a Note object using inputs from JSON",
           "required": true,
           "content": {
-            "application/json":{
-              "schema":{
-                "$ref":"#/components/schemas/note"
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/note"
               }
             }
           }
         },
         "responses": {
-          "201":{
+          "201": {
             "description": "Note successfully created!",
             "content": {
-              "application/json":{
-                "schema":{
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/note"
                 }
               }
             }
           },
-          "400":{
+          "400": {
             "description": "Bad request"
           }
         }
       }
     },
-"/notes/{note_id}": {
+    "/notes/{note_id}": {
       "parameters": [
         {
           "name": "note_id",
@@ -98,8 +98,8 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json":{
-                "schema":{
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/note"
                 }
               }
@@ -110,50 +110,50 @@
           }
         }
       },
-      "put":{
-        "tags":["instructor"],
-        "summary":"Updates the note indicated by the Id",
-        "requestBody":{
+      "put": {
+        "tags": ["instructor"],
+        "summary": "Updates the note indicated by the Id",
+        "requestBody": {
           "description": "Updates a Note object using inputs from JSON",
           "required": true,
           "content": {
-            "application/json":{
-              "schema":{
-                "$ref":"#/components/schemas/note"
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/note"
               }
             }
           }
         },
         "responses": {
-          "201":{
+          "201": {
             "description": "Note successfully updated!",
             "content": {
-              "application/json":{
-                "schema":{
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/note"
                 }
               }
             }
           },
-          "400":{
+          "400": {
             "description": "Bad request"
           }
         }
       },
-      "delete":{
+      "delete": {
         "tags": ["instructor"],
         "summary": "Removes a Note from the database",
-        "responses":{
-        "200":{
-          "description":"Note successfully deleted!"
-        },
-        "400":{
-          "description":"Bad request."
+        "responses": {
+          "200": {
+            "description": "Note successfully deleted!"
+          },
+          "400": {
+            "description": "Bad request."
+          }
         }
       }
-      }
     },
-"/associates/{associate_id}/notes": {
+    "/associates/{associate_id}/notes": {
       "parameters": [
         {
           "name": "associate_id",
@@ -172,8 +172,8 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json":{
-                "schema":{
+              "application/json": {
+                "schema": {
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/note"
@@ -626,7 +626,7 @@
         }
       }
     },
-    "/trainers": {
+    "/login": {
       "post": {
         "tags": ["instructor"],
         "summary": "Login an instructor",
@@ -647,6 +647,147 @@
           },
           "404": {
             "description": "Trainer unsuccessfully logs in"
+          }
+        }
+      }
+    },
+    "/trainers": {
+      "post": {
+        "tags": ["admin"],
+        "summary": "Create a new trainer.",
+        "requestBody": {
+          "description": "Create a new trainer.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "1": {
+                  "value": {
+                    "firstName": "Trainer",
+                    "lastName": "McTrainerface",
+                    "email": "important@trainer.person"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/trainer"
+                },
+                "examples": {
+                  "recieve trainer": {
+                    "value": {
+                      "email": "important@trainer.person",
+                      "firstName": "Trainer",
+                      "id": 1,
+                      "lastName": "McTrainerface",
+                      "role": "",
+                      "admin": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Get a list of all trainers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/getTrainerResponseBody"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trainers/register": {
+      "post": {
+        "tags": ["admin"],
+        "summary": "Assign trainer to batch.",
+        "requestBody": {
+          "description": "Create a new trainer-batch join relationship.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "trainerId": {
+                    "type": "integer"
+                  },
+                  "batchId": {
+                    "type": "integer"
+                  },
+                  "trainerRole": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "1": {
+                  "value": {
+                    "trainerId": 1,
+                    "batchId": 1,
+                    "trainerRole": "Lead"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/trainer"
+                },
+                "examples": {
+                  "recieve trainer": {
+                    "value": {
+                      "email": "important@trainer.person",
+                      "firstName": "Trainer",
+                      "id": 1,
+                      "lastName": "McTrainerface",
+                      "role": "Lead",
+                      "admin": false
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -843,22 +984,44 @@
           }
         }
       },
-      "note":{
+      "note": {
         "properties": {
-          "id":{
+          "id": {
             "type": "number"
           },
-          "batchId":{
+          "batchId": {
             "type": "number"
           },
-          "associateId":{
+          "associateId": {
             "type": "number"
           },
-          "weekNumber":{
+          "weekNumber": {
             "type": "number"
           },
-          "cont":{
+          "cont": {
             "type": "string"
+          }
+        }
+      },
+      "trainer": {
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "email": {
+            "type": "string"
+          },
+          "admin": {
+            "type": "boolean"
           }
         }
       }
