@@ -57,7 +57,6 @@ def route(app):
     @app.route("/trainers", methods=["POST"])
     def post_trainer():
         """Create a new trainer.
-
         Accepts a JSON input:
         {
             "firstName": str,
@@ -101,3 +100,11 @@ def route(app):
             return "Invalid JSON body", 400
         except ResourceNotFound as r:
             return r.message, 404
+
+    @app.route("/trainers", methods=["GET"])
+    def get_all_trainers():
+        try:
+            return jsonify(TrainerService.get_all_trainers())
+        except ResourceNotFound as r:
+            return r.message, 404
+

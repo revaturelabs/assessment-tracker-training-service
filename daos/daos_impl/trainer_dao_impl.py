@@ -10,6 +10,27 @@ from models.trainer import Trainer
 class TrainerDAOImpl(TrainerDAO):
 
     @staticmethod
+    def get_all_trainers(cursor) -> list[Trainer]:
+        sql = "SELECT * FROM trainers"
+        cursor.execute(sql)
+        records = cursor.fetchall()
+        trainer_list = []
+        if records:
+            for record in records:
+                trainer_list.append(
+                    Trainer(
+                        id=record[0],
+                        email=record[1],
+                        first_name=record[2],
+                        last_name=record[3],
+                        admin=record[4]
+                    )
+                )
+        if len(trainer_list) == 0:
+            raise ResourceNotFound("No trainers found")
+        return trainer_list
+
+    @staticmethod
     def get_trainer_by_id(cursor, trainer_id):
         sql = "SELECT * FROM trainers WHERE id=%s"
         cursor.execute(sql, [trainer_id])
