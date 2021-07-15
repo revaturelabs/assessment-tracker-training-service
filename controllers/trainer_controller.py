@@ -1,18 +1,14 @@
 from flask import request, jsonify
-from flask_restx import Api, Resource
+from flask_restx import Resource
 
-from flask_restx import Api, Resource
 from exceptions.resource_not_found import ResourceNotFound
 from services.trainer_service import TrainerService
 from utils.json_tool import convert_list_to_json
-
-
 
 INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 
 def route(api):
-
     @api.route('/trainers')
     @api.response(404, "No user with those credentials")
     class Login(Resource):
@@ -22,8 +18,6 @@ def route(api):
                 return jsonify(TrainerService.login(email).json())
             except ResourceNotFound as r:
                 return r.message, 404
-
-
 
     @api.route('/trainers/<trainer_id>')
     @api.param('trainer_id', "Trainer ID")
@@ -37,7 +31,6 @@ def route(api):
                 return INVALID_ID_ERROR, 400  # Bad Request
             except ResourceNotFound as r:
                 return r.message, 404
-
 
     @api.route('/batches/<batch_id>/trainers')
     @api.param('batch_id', "Batch ID of the batch you want trainer")
@@ -54,8 +47,6 @@ def route(api):
             trainers_as_json = convert_list_to_json(trainers)
             return jsonify(trainers_as_json)
 
-
-
     @api.route('/years')
     @api.response(400, "Invalid ID")
     class GetYearsForTrainer(Resource):
@@ -68,16 +59,3 @@ def route(api):
                     return INVALID_ID_ERROR, 400  # Bad Request
             else:
                 return jsonify([])
-
-
-
-
-    @api.route('/trainers')
-    @api.response(404, "No user with those credentials")
-    class GetTrainer(Resource):
-        def post(self):
-            try:
-                email = request.json["email"]
-                return jsonify(TrainerService.login(email).json())
-            except ResourceNotFound as r:
-                return r.message, 404
