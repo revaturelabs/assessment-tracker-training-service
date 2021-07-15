@@ -4,6 +4,8 @@ from exceptions.resource_not_found import ResourceNotFound
 from services.trainer_service import TrainerService
 from utils.json_tool import convert_list_to_json
 
+import json
+
 INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 
@@ -47,3 +49,56 @@ def route(app):
                 return INVALID_ID_ERROR, 400  # Bad Request
         else:
             return jsonify([])
+
+    @app.route("/trainers", methods=["POST"])
+    def post_trainer():
+        """Create a new trainer.
+        Accepts a JSON input:
+        {
+            "firstName": str,
+            "lastName": str,
+            "email": str
+        }
+        """
+        try:
+            body = json.loads(request.data.decode("utf-8"))
+            trainer = Trainer(body["firstName"], body["lastName"],
+                              body["email"])
+            trainer = TrainerService.create_trainer(trainer)
+            return jsonify(trainer.json()), 201
+        except ValueError:
+            return INVALID_ID_ERROR, 400  # Bad Request
+        except ResourceNotFound as r:
+            return r.message, 404
+
+    @app.route("/trainers/register", methods=["POST"])
+    def post_trainer_batch():
+        """
+        Create a new trainer-batch join relationship
+        Accepts a JSON input:
+        {
+            "trainerId": int,
+            "batchId": int,
+            "trainerRole": str
+        }
+        """
+        try:
+            body = json.loads(request.data.decode("utf-8"))
+            trainer = TrainerService.get_trainer_by_id(body["trainerId"])
+            trainer.role = body["trainerRole"]
+            register = TrainerService.assign_trainer_to_batch(
+                trainer, body["batchId"])
+            return jsonify(register.json()), 201
+        except (ValueError):
+            return INVALID_ID_ERROR, 400
+        except (KeyError, TypeError):
+            return "Invalid JSON body", 400
+        except ResourceNotFound as r:
+            return r.message, 404
+
+    @app.route("/trainers", methods=["GET"])
+    def get_all_trainers():
+        try:
+            return jsonify(TrainerService.get_all_trainers())
+        except ResourceNotFound as r:
+            return r.message, 404

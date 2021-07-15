@@ -90,3 +90,16 @@ def test_get_years_for_trainer():
             results = t.get_years_for_trainer(cursor, trainer.id)
             assert len(results) != 0
         conn.rollback()
+
+
+def test_get_all_trainers():
+    with conn:
+        with conn.cursor() as cursor:
+            trainer = copy(TRAINER)
+            trainer.id = t.create_trainer(cursor, trainer).id
+            trainer = copy(TRAINER)
+            trainer_id = t.create_trainer(cursor, trainer).id
+            trainers = t.get_all_trainers(cursor)
+            assert len(trainers) > 1
+        conn.rollback()
+

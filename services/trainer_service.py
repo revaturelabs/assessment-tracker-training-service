@@ -36,3 +36,12 @@ class TrainerService:
                 for year in years:
                     years_dict.append({"year": year})
                 return years_dict
+
+    @classmethod
+    def get_all_trainers(cls):
+        with conn:
+            with conn.cursor() as cursor:
+                trainers = TrainerDAOImpl().get_all_trainers(cursor)
+                trainers_list = [trainer.json() for trainer in trainers]
+                return trainers_list
+
