@@ -1,6 +1,6 @@
 import psycopg2
 from flask import jsonify, request
-from flask_restx import Api, Resource, Namespace, fields
+from flask_restx import Resource, Namespace, fields
 
 from exceptions.resource_not_found import ResourceNotFound
 from models.batch import Batch
@@ -14,20 +14,15 @@ def route(api):
     admin = Namespace('Admin', description='Admin related operations')
     api.add_namespace(admin)
 
-    sample_create_batch = api.model('Model',{
-                                        "name": "Areesh",
-                                        "trainingTrack": "AWS/Python",
-                                        "startDate": 1625843430,
-                                        "endDate": 1639008000
-                                    })
-    batch_data = api.model('Model', {
-        "name": fields.String,
-        "trainingTrack": fields.String,
-        "startDate": fields.Integer,
-        "endDate": fields.Integer
+    batch_data = api.model('Schemas', {
+        "name": fields.String(description='Name of the batch'),
+        "trainingTrack": fields.String(description='Tech Stack for the batch'),
+        "startDate": fields.Integer(description='Epoch time in seconds'),
+        "endDate": fields.Integer(description='Epoch time in seconds')
     })
 
     @api.route('/batches')
+    @api.response(201, "<batch_id>")
     @api.response(400, 'Bad Request')
     class CreateBatch(Resource):
         @api.expect(batch_data)
