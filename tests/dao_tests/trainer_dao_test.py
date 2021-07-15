@@ -30,7 +30,7 @@ def test_get_trainers_in_batch():
             batch = copy(BATCH)
             trainer.id = t.create_trainer(cursor, trainer).id
             batch.id = b.create_batch(cursor, batch).id
-            t.create_trainer_batch(cursor, trainer, batch, "Yes")
+            t.create_trainer_batch(cursor, trainer, batch)
             trainers = t.get_trainers_in_batch(cursor, batch.id)
             assert len(trainers) != 0
         conn.rollback()
@@ -63,7 +63,7 @@ def test_get_trainers_in_batch_fail():
             batch = copy(BATCH)
             trainer.id = t.create_trainer(cursor, trainer).id
             batch.id = b.create_batch(cursor, batch).id
-            t.create_trainer_batch(cursor, trainer, batch, "Yes")
+            t.create_trainer_batch(cursor, trainer, batch)
             trainers = t.get_trainers_in_batch(cursor, 0)
             assert len(trainers) == 0
         conn.rollback()
@@ -86,7 +86,7 @@ def test_get_years_for_trainer():
             batch = copy(BATCH)
             trainer.id = t.create_trainer(cursor, trainer).id
             batch.id = b.create_batch(cursor, batch).id
-            t.create_trainer_batch(cursor, trainer, batch, "Yes")
+            t.create_trainer_batch(cursor, trainer, batch)
             results = t.get_years_for_trainer(cursor, trainer.id)
             assert len(results) != 0
         conn.rollback()
