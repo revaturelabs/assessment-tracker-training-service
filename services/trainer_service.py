@@ -41,7 +41,6 @@ class TrainerService:
                 return years_dict
 
     @classmethod
-<<<<<<< HEAD
     def get_all_trainers(cls):
         with conn:
             with conn.cursor() as cursor:
@@ -49,7 +48,7 @@ class TrainerService:
                 trainers_list = [trainer.json() for trainer in trainers]
                 return trainers_list
 
-=======
+    @classmethod
     def create_trainer(cls, trainer: Trainer):
         with conn:
             with conn.cursor() as cursor:
@@ -62,4 +61,4 @@ class TrainerService:
                 batch = cls.batch_dao.get_batch_by_id(cursor, batch_id)
                 cls.trainer_dao.create_trainer_batch(cursor, trainer, batch)
                 return trainer
->>>>>>> 76537b104a40736c6e7f4fe0907301f087c4b2d6
+
