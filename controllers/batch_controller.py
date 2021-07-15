@@ -11,8 +11,6 @@ INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 
 def route(ans, ins):
-
-
     batch_data = ans.model('Schemas', {
         "name": fields.String(default="Reston-7152021", description='Name of the batch'),
         "trainingTrack": fields.String(default="Python, Java, Automation", description='Tech Stack for the batch'),
