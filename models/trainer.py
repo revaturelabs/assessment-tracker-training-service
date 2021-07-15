@@ -15,8 +15,8 @@ class Trainer(Codable):
         return {
             'id': self.id,
             'email': self.email,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
+            'firstName': self.first_name,
+            'lastName': self.last_name,
             'role': self.role,
             'admin': self.admin
         }
@@ -26,8 +26,8 @@ class Trainer(Codable):
         trainer = Trainer()
         trainer.id = json["id"]
         trainer.email = json["email"]
-        trainer.first_name = json["first_name"]
-        trainer.last_name = json["last_name"]
+        trainer.first_name = json["firstName"]
+        trainer.last_name = json["lastName"]
         trainer.role = json["role"]
         trainer.admin = json["admin"]
 
