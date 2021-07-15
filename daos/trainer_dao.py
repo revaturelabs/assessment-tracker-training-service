@@ -36,5 +36,5 @@ class TrainerDAO(ABC):
 
     @staticmethod
     @abstractmethod
-    def get_all_trainers(cursor) -> list[Trainer]:
+    def get_all_trainers(cursor):
         pass
