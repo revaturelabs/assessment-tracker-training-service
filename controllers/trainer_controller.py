@@ -57,10 +57,6 @@ def route(app):
     @app.route("/trainers", methods=["POST"])
     def post_trainer():
         """Create a new trainer.
-<<<<<<< HEAD
-=======
-
->>>>>>> 76537b104a40736c6e7f4fe0907301f087c4b2d6
         Accepts a JSON input:
         {
             "firstName": str,
@@ -83,10 +79,7 @@ def route(app):
     def post_trainer_batch():
         """
         Create a new trainer-batch join relationship
-<<<<<<< HEAD
-=======
 
->>>>>>> 76537b104a40736c6e7f4fe0907301f087c4b2d6
         Accepts a JSON input:
         {
             "trainerId": int,
@@ -107,7 +100,6 @@ def route(app):
             return "Invalid JSON body", 400
         except ResourceNotFound as r:
             return r.message, 404
-<<<<<<< HEAD
 
     @app.route("/trainers", methods=["GET"])
     def get_all_trainers():
@@ -115,5 +107,4 @@ def route(app):
             return jsonify(TrainerService.get_all_trainers())
         except ResourceNotFound as r:
             return r.message, 404
-=======
->>>>>>> 76537b104a40736c6e7f4fe0907301f087c4b2d6
+
