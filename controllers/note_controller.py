@@ -10,7 +10,7 @@ from services.note_service_impl import NoteServiceImpl
 
 INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
-def route(ans, ins):
+def route(ins):
 
     note_dao: NoteDao = NoteDAOImpl()
     note_service: NoteService = NoteServiceImpl(note_dao)
@@ -50,7 +50,7 @@ def route(ans, ins):
             """ Gets all notes"""
             notes = note_service.get_all_notes()
             json_notes = [note.json() for note in notes]
-            return jsonify(json_notes), 200
+            return json_notes, 200
     
 
     @ins.route("/notes/<int:note_id>")
@@ -64,7 +64,7 @@ def route(ans, ins):
             """ Gets a specific note by ID """
             try:
                 note = note_service.get_single_note(int(note_id))
-                return jsonify(note.json()), 200
+                return note.json(), 200
             except ResourceNotFound as r:
                 # invalid note id
                 return r.message, 404
@@ -114,7 +114,7 @@ def route(ans, ins):
                 else:
                     notes = note_service.get_all_notes_for_trainee(int(associate_id))
                 json_notes = [note.json() for note in notes]
-                return jsonify(json_notes), 200
+                return json_notes, 200
             except ResourceNotFound as r:
                 # Bad trainee id passed
                 return r.message, 404
