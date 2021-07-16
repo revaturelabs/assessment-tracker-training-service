@@ -25,4 +25,4 @@ ins = api.namespace(name='Instructor', path='/', description='Instructor related
 app_controller.route(ans, ins)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(host='0.0.0.0')
