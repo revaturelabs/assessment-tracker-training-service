@@ -1,9 +1,10 @@
 import json
-from models.associate import Associate
+
 from flask import request
 from flask_restx import Resource, fields
 
 from exceptions.resource_not_found import ResourceNotFound
+from models.associate import Associate
 from services.associate_services import AssociateServices
 from utils.json_tool import convert_list_to_json
 
@@ -30,6 +31,7 @@ def route(ans, ins):
                 "trainingStatus": fields.String
             })
 
+        @ans.marshal_with(associate, as_list=True, mask=None)
         def get(self):
             """Get all associates"""
             results = AssociateServices.get_all_associates()

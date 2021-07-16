@@ -106,6 +106,7 @@ def route(ins):
         @ins.response(200, 'OK')
         @ins.response(404, 'Resource not Found')
         def get(self, associate_id):
+            """Gets notes for given associate"""
             week = request.args.get("week")
             try:
                 if week is not None:
