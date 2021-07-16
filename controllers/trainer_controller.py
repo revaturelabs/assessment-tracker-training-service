@@ -3,6 +3,7 @@ import json
 from flask import request, jsonify
 from flask_restx import Resource, fields
 
+
 from exceptions.resource_not_found import ResourceNotFound
 from models.trainer import Trainer
 from services.trainer_service import TrainerService
@@ -40,7 +41,7 @@ def route(ans, ins):
             """Logs in a trainer using their email address"""
             try:
                 email = request.json["email"]
-                return jsonify(TrainerService.login(email).json())
+                return TrainerService.login(email).json()
             except ResourceNotFound as r:
                 return r.message, 404
 
@@ -53,7 +54,7 @@ def route(ans, ins):
         def get(self, trainer_id):
             """Retrieve trainer information using their ID"""
             try:
-                return jsonify(TrainerService.get_trainer_by_id(int(trainer_id)).json())
+                return TrainerService.get_trainer_by_id(int(trainer_id)).json()
             except ValueError:
                 return INVALID_ID_ERROR, 400  # Bad Request
             except ResourceNotFound as r:
@@ -74,7 +75,7 @@ def route(ans, ins):
             except ResourceNotFound as r:
                 return r.message, 404
             trainers_as_json = convert_list_to_json(trainers)
-            return jsonify(trainers_as_json)
+            return trainers_as_json
 
     @ins.route('/years')
     @ins.response(400, "Invalid ID")
@@ -92,7 +93,7 @@ def route(ans, ins):
                 except ValueError:
                     return INVALID_ID_ERROR, 400  # Bad Request
             else:
-                return jsonify([])
+                return []
 
 
     @ans.route('/trainers')
