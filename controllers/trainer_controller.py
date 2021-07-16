@@ -80,7 +80,7 @@ def route(ans, ins):
     @ins.route('/years')
     @ins.response(400, "Invalid ID")
     @ins.doc(params={
-        'year': {'in': 'query', 'description': '2021', 'type': 'integer'}
+        'trainerId': {'in': 'query', 'description': '1', 'type': 'integer'}
     })
     class GetYearsForTrainer(Resource):
         @ins.marshal_with(year_data, as_list=True, mask=None)
