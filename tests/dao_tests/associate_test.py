@@ -21,6 +21,7 @@ def test_get_associate_by_id():
             assert result.first_name == retrieve.first_name
         conn.rollback()
 
+
 def test_get_all_associates():
     with conn:
         with conn.cursor() as cursor:
@@ -67,4 +68,23 @@ def test_get_associate_in_batch_fail():
             a.create_associate_batch(cursor, associate, batch)
             with raises(ResourceNotFound):
                 a.get_associate_in_batch(cursor, 0, 0)
+        conn.rollback()
+
+
+def test_batch_create_associate_batch():
+    with conn:
+        with conn.cursor() as cursor:
+            associates = [copy(ASSOCIATE) for _ in range(5)]
+            batch = copy(BATCH)
+            batch.id = b.create_batch(cursor, batch).id
+            for associate in associates:
+                associate.id = a.create_associate(cursor, associate).id
+            a.batch_create_associate_batch(
+                cursor, [associate.id for associate in associates], batch,
+                "In Progress")
+            associate_count = 0
+            for associate in associates:
+                if a.get_associate_by_id(cursor, associate.id).id > 0:
+                    associate_count += 1
+            assert associate_count == 5
         conn.rollback()

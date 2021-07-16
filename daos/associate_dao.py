@@ -1,9 +1,11 @@
 from abc import abstractmethod, ABC
+from typing import List
 from models.batch import Batch
 from models.associate import Associate
 
 
 class AssociateDAO(ABC):
+
     @staticmethod
     @abstractmethod
     def get_associate_by_id(cursor, associate_id):
@@ -33,4 +35,11 @@ class AssociateDAO(ABC):
     @abstractmethod
     def create_associate_batch(cursor, associate: Associate,
                                batch: Batch) -> bool:
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def batch_create_associate_batch(cursor, associate_ids: List[int],
+                                     batch: Batch,
+                                     training_status: str) -> bool:
         pass

@@ -1,7 +1,9 @@
+from typing import List
 from models.batch import Batch
 from daos.associate_dao import AssociateDAO
 from exceptions.resource_not_found import ResourceNotFound
 from models.associate import Associate
+from psycopg2.extras import execute_batch
 
 
 class AssociateDAOImpl(AssociateDAO):
@@ -30,7 +32,12 @@ class AssociateDAOImpl(AssociateDAO):
         records = cursor.fetchall()
         all_associates = []
         for record in records:
-            all_associates.append(Associate(id=record[0], email=record[1], first_name=record[2], last_name=record[3], training_status=""))
+            all_associates.append(
+                Associate(id=record[0],
+                          email=record[1],
+                          first_name=record[2],
+                          last_name=record[3],
+                          training_status=""))
         return all_associates
 
     @staticmethod
@@ -100,4 +107,21 @@ class AssociateDAOImpl(AssociateDAO):
             associate.id, batch.id, batch.start_date, batch.end_date,
             associate.training_status
         ])
+        return True
+
+    @staticmethod
+    def batch_create_associate_batch(cursor, associate_ids: List[int],
+                                     batch: Batch,
+                                     training_status: str) -> bool:
+        """Batch create associate_batch joins"""
+        sql = """\
+            insert into
+                associate_batches
+            values
+                (%s, %s, %s, %s, %s)"""
+        inputs = [[
+            associate_id, batch.id, batch.start_date, batch.end_date,
+            training_status
+        ] for associate_id in associate_ids]
+        execute_batch(cursor, sql, inputs)
         return True
