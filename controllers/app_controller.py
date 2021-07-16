@@ -1,10 +1,8 @@
-from flask_cors import CORS
 from controllers import batch_controller, associate_controller, trainer_controller, note_controller
 
 
-def route(app):
-    batch_controller.route(app)
-    associate_controller.route(app)
-    trainer_controller.route(app)
-    note_controller.route(app)
-    CORS(app)
+def route(ans, ins):
+    batch_controller.route(ans, ins)
+    associate_controller.route(ans, ins)
+    trainer_controller.route(ans, ins)
+    note_controller.route(ins)
