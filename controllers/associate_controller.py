@@ -30,23 +30,14 @@ def route(ans, ins):
                 "trainingStatus": fields.String
             })
 
-        @ans.doc(summary="Get all associates.")
         def get(self):
+            """Get all associates"""
             results = AssociateServices.get_all_associates()
             return [result.json() for result in results]
 
         @ans.expect(new_associate)
-        @ans.doc(summary="Creates a new associate.")
         def post(self):
-            """Create a new associate.
-            Accepts a JSON input:
-            {
-                "firstName": str,
-                "lastName": str,
-                "email": str,
-                "trainingStatus": str,
-            }
-            """
+            """Create a new associate."""
             try:
                 body = json.loads(request.data.decode("utf-8"))
                 associate = Associate(body["firstName"], body["lastName"],
@@ -131,15 +122,7 @@ def route(ans, ins):
                  description="Creates a new associate-batch join relationship.")
         @ans.expect(associate_batch)
         def post(self):
-            """
-            Create a new associate-batch join relationship
-
-            Accepts a JSON input:
-            {
-                "associateId": int,
-                "batchId": int
-            }
-            """
+            """Create a new associate-batch join relationship"""
             try:
                 body = request.json
                 new_registration = AssociateServices.create_assoicate_batch_join(
