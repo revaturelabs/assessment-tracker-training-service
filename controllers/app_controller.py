@@ -5,4 +5,4 @@ def route(ans, ins):
     batch_controller.route(ans, ins)
     associate_controller.route(ans, ins)
     trainer_controller.route(ans, ins)
-    note_controller.route(ans, ins)
+    note_controller.route(ins)

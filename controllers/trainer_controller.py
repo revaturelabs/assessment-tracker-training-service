@@ -54,7 +54,8 @@ def route(ans, ins):
             trainer_id = request.args.get("trainerId")
             if trainer_id is not None:
                 try:
-                    return TrainerService.get_years_for_trainer(int(trainer_id))
+                    return TrainerService.get_years_for_trainer(
+                        int(trainer_id))
                 except ValueError:
                     return INVALID_ID_ERROR, 400  # Bad Request
             else:
