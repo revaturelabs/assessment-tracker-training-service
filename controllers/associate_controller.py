@@ -127,7 +127,7 @@ def route(ans, ins):
             """Create a new associate-batch join relationship"""
             try:
                 body = request.json
-                new_registration = AssociateServices.create_assoicate_batch_join(
+                new_registration = AssociateServices.create_associate_batch_join(
                     int(body["associateId"]), int(body["batchId"]))
                 result = {"result": new_registration}
                 return result, 201
