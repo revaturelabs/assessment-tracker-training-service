@@ -1,4 +1,3 @@
-from flask_cors import CORS
 from controllers import batch_controller, associate_controller, trainer_controller, note_controller
 
 

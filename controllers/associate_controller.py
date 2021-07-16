@@ -1,11 +1,3 @@
-import json
-from models.associate import Associate
-from flask import request, jsonify
-
-from exceptions.resource_not_found import ResourceNotFound
-from services.associate_services import AssociateServices
-from utils.json_tool import convert_list_to_json
-
 INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 

@@ -1,5 +1,5 @@
 import psycopg2
-from flask import jsonify, request
+from flask import request
 from flask_restx import Resource, fields
 
 from exceptions.resource_not_found import ResourceNotFound
@@ -11,7 +11,7 @@ INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 
 def route(ans, ins):
-    batch_data = ans.model('Schemas', {
+    batch_data = ans.model('Batch Data', {
         "name": fields.String(default="Reston-7152021", description='Name of the batch'),
         "trainingTrack": fields.String(default="Python, Java, Automation", description='Tech Stack for the batch'),
         "startDate": fields.Integer(default="1625843430", description='Epoch time in seconds'),
@@ -29,7 +29,7 @@ def route(ans, ins):
                 body = request.json
                 batch = Batch(body["name"], body["trainingTrack"], body["startDate"], body["endDate"])
                 result = BatchServices.create_batch(batch)
-                return jsonify(f"{result.id}"), 201
+                return f"{result.id}", 201
             except psycopg2.errors.InvalidDatetimeFormat as e:
                 return str(e), 400  # Bad Request
             except ValueError as e:
@@ -44,7 +44,7 @@ def route(ans, ins):
         def get(self, batch_id):
             """Takes in an id for a batch record and returns a Batch object"""
             try:
-                return jsonify(BatchServices.get_batch_by_id(int(batch_id)).json())
+                return BatchServices.get_batch_by_id(int(batch_id)).json()
             except ValueError:
                 return INVALID_ID_ERROR, 400  # Bad Request
             except ResourceNotFound as r:
@@ -68,7 +68,7 @@ def route(ans, ins):
                 except ValueError:
                     return INVALID_ID_ERROR, 400  # Bad Request
                 batches_as_json = convert_list_to_json(batches)
-                return jsonify(batches_as_json)
+                return batches_as_json
 
             elif track is not None:
                 try:
@@ -76,7 +76,7 @@ def route(ans, ins):
                 except ValueError:
                     return INVALID_ID_ERROR, 400  # Bad Request
                 batches_as_json = convert_list_to_json(batches)
-                return jsonify(batches_as_json)
+                return batches_as_json
 
             else:
                 return "Please provide either track or year query parameters", 400
