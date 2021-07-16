@@ -14,6 +14,7 @@ INVALID_ID_ERROR = "Not a valid ID or No such batch exist with this ID"
 
 def route(ans, ins):
     trainer_data = ans.model('Schemas', {
+        "id": fields.Integer(default=0, description="Trainers id"),
         "firstName": fields.String(default="Adam", description="Trainer's first name"),
         "lastName": fields.String(default="Ranieri", description="Trainers last name"),
         "email": fields.String(default="real@email.com", description="Trainer's email address"),
@@ -114,6 +115,7 @@ def route(ans, ins):
                 return INVALID_ID_ERROR, 400  # Bad Request
             except ResourceNotFound as r:
                 return r.message, 404
+
         @ans.marshal_with(trainer_data,as_list=True, mask=None)
         def get(self):
             """Retrieves all trainers"""
@@ -122,14 +124,13 @@ def route(ans, ins):
             except ResourceNotFound as r:
                 return r.message, 404
 
-
     @ans.route("/trainers/register")
     @ans.response(201, "Successfully registered batch")
     @ans.response(400, "Invalid ID")
     @ans.response(400, "Invalid Json body")
     @ans.response(404, "Resource not found")
     class PostTrainerBatch(Resource):
-        @ans.expect(trainer_batch)
+
         def post(self):
             """
                     Create a new trainer-batch join relationship
@@ -140,8 +141,8 @@ def route(ans, ins):
                 trainer.role = body["trainerRole"]
                 register = TrainerService.assign_trainer_to_batch(
                     trainer, body["batchId"])
-                return register.json(), 201
-            except (ValueError):
+                return {"result": True}, 201
+            except ValueError:
                 return INVALID_ID_ERROR, 400
             except (KeyError, TypeError):
                 return "Invalid JSON body", 400
