@@ -1,6 +1,11 @@
 **/conn_cred.ini
 .idea/
 *.iml
+source/
+build/
+_build/
+make.bat
+Makefile
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
