@@ -131,9 +131,33 @@ def route(ans, ins):
                     int(body["associateId"]), int(body["batchId"]))
                 result = {"result": new_registration}
                 return result, 201
-            except (ValueError):
+            except ValueError:
                 return INVALID_ID_ERROR, 400
             except (KeyError, TypeError):
                 return "Invalid JSON body", 400
             except ResourceNotFound as r:
                 return r.message, 404
+
+    @ans.route("/associates/multiregister")
+    class PostAssociatesBatch(Resource):
+        associates_batch = ans.model("associates_batch", {
+            "associateIds": fields.List(fields.Integer, default=[1, 2, 3], description="Associate ids"),
+            "batchId": fields.Integer,
+            "trainingStatus": fields.String
+        })
+
+        @ans.doc(summary="Register an associate into a batch.",
+                 description="Creates a new associate-batch join relationship.")
+        @ans.expect(associates_batch)
+        def post(self):
+            """Create multiple associate batch join relationships"""
+            try:
+                body = request.json
+                new_registration = AssociateServices.batch_create_associate_batch(
+                    body["associateIds"], body["batchId"], body["trainingStatus"])
+                result = {"result": new_registration}
+                return result, 201
+            except ValueError:
+                return INVALID_ID_ERROR, 400
+            except (KeyError, TypeError):
+                return "Invalid JSON body", 400
