@@ -10,6 +10,7 @@ Welcome to Assessment Tracker Training Service's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   modules
 
 
 Indices and tables
