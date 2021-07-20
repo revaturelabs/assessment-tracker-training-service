@@ -30,11 +30,12 @@ insert into batches (start_date, end_date, "name", training_track) values (extra
 insert into batches (start_date, end_date, "name", training_track) values (extract(epoch from timestamp '2021-6-20'), extract(epoch from timestamp '2021-8-20'), '20210620', 'Android Development');
 
 /*default data for trainers*/
-insert into trainers (email, first_name, last_name) values ('rs@revature.com', 'Ryan', 'Schlientz');
-insert into trainers (email, first_name, last_name) values ('df@revature.com', 'Dan', 'Felleman');
-insert into trainers (email, first_name, last_name) values ('mm@revature.com', 'Mark', 'Mambo');
-insert into trainers (email, first_name, last_name) values ('bg@revature.com', 'Bill', 'Gates');
-insert into trainers (email, first_name, last_name) values ('cp@revature.com', 'Clippy', 'Paper');
+insert into trainers (email, first_name, last_name, is_admin) values ('rs@revature.com', 'Ryan', 'Schlientz', false);
+insert into trainers (email, first_name, last_name, is_admin) values ('df@revature.com', 'Dan', 'Felleman', false);
+insert into trainers (email, first_name, last_name, is_admin) values ('mm@revature.com', 'Mark', 'Mambo', false);
+insert into trainers (email, first_name, last_name, is_admin) values ('bg@revature.com', 'Bill', 'Gates', false);
+insert into trainers (email, first_name, last_name, is_admin) values ('ar@revature.com', 'Adam', 'Ranieri', false);
+insert into trainers (email, first_name, last_name, is_admin) values ('admin@revature.com', 'Admin', 'Admin', true);
 
 /*add some associates to a batch*/
 insert into associate_batches (associate_id, batch_id, start_date, end_date, training_status) values (1, 1, extract(epoch from timestamp '2020-01-20'), extract(epoch from timestamp '2020-2-20'), 'Passed');
